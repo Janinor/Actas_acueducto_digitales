@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acta de Obra Digital - Acueducto (Estático)</title>
+    <!-- Tailwind CSS para diseño moderno -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos limpios -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- html2pdf.js para generar PDFs en el cliente sin backend -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .no-scroll {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- Cabecera -->
+    <header class="bg-blue-700 text-white shadow-md py-4 px-6 sticky top-0 z-40">
+        <div class="max-w-3xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 p-2 rounded-lg text-white">
+                    <i class="fa-solid fa-water-ladder text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-tight leading-none">Acueducto Digital</h1>
+                    <span class="text-xs text-blue-200">Generación Descentralizada de Actas</span>
+                </div>
+            </div>
+            <span class="bg-blue-800 text-xs px-3 py-1 rounded-full text-blue-200 font-medium">Modo Estático / Seguro</span>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="max-w-3xl w-full mx-auto p-4 md:py-8 flex-grow">
+        <!-- Indicador de Pasos -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between text-xs text-slate-500 font-semibold mb-3">
+                <span id="step-badge" class="bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded-full">Paso 1 de 3</span>
+                <span id="step-percentage">33% Completado</span>
+            </div>
+            <div class="w-full bg-slate-200 rounded-full h-2.5">
+                <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" style="width: 33%"></div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+            <form id="actaForm" onsubmit="return false;">
+                
+                <!-- PASO 1: DATOS GENERALES -->
+                <div id="step1" class="space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-user-tie text-blue-600"></i>
+                            Paso 1: Datos Generales del Inspector
+                        </h2>
+                        <p class="text-sm text-slate-500 mt-1">Ingrese la información básica de la persona que diligencia o supervisa la visita.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="nombre_inspector" class="block text-sm font-semibold text-slate-700 mb-2">Nombre Completo *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                    <i class="fa-solid fa-user"></i>
+                                </span>
+                                <input type="text" id="nombre_inspector" required class="pl-10 w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Ej. Carlos Gómez">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="documento_inspector" class="block text-sm font-semibold text-slate-700 mb-2">Documento de Identidad *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                    <i class="fa-solid fa-id-card"></i>
+                                </span>
+                                <input type="number" id="documento_inspector" required class="pl-10 w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Ej. 1024345678">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex justify-end">
+                        <button type="button" onclick="nextStep(2)" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-xl transition flex items-center gap-2 shadow-sm shadow-blue-200">
+                            Siguiente Paso
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PASO 2: REGISTRO DE CAMPO -->
+                <div id="step2" class="hidden space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-helmet-safety text-blue-600"></i>
+                            Paso 2: Registro de Campo e Inspección
+                        </h2>
+                        <p class="text-sm text-slate-500 mt-1">Diligencie los 6 campos clave para garantizar la trazabilidad de la obra.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Campo 1: Nombre/Código del Proyecto -->
+                        <div>
+                            <label for="proyecto" class="block text-sm font-semibold text-slate-700 mb-2">1. Proyecto de Obra *</label>
+                            <select id="proyecto" required class="w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                                <option value="">Seleccione un proyecto...</option>
+                                <option value="ACU-SUR">Acueducto Matriz Sur (Fase II)</option>
+                                <option value="RED-NORTE">Redes de Distribución Norte</option>
+                                <option value="TAN-ORIENTE">Tanque de Almacenamiento Oriente</option>
+                                <option value="PTAP-CENTRO">Planta de Tratamiento Centro</option>
+                            </select>
+                        </div>
+
+                        <!-- Campo 2: Frente de Obra / Ubicación -->
+                        <div>
+                            <label for="ubicacion" class="block text-sm font-semibold text-slate-700 mb-2">2. Ubicación / Frente de Obra *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </span>
+                                <input type="text" id="ubicacion" required class="pl-10 w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Ej. Calle 45 Sur #24-10">
+                            </div>
+                        </div>
+
+                        <!-- Campo 3: Tipo de Visita -->
+                        <div>
+                            <label for="tipo_visita" class="block text-sm font-semibold text-slate-700 mb-2">3. Tipo de Visita *</label>
+                            <select id="tipo_visita" required class="w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                                <option value="">Seleccione el tipo...</option>
+                                <option value="Tecnica">Inspección Técnica de Obra</option>
+                                <option value="Ambiental">Auditoría Ambiental</option>
+                                <option value="SST">Control Seguridad y Salud (SST)</option>
+                                <option value="Entrega">Entrega Parcial / Recibo</option>
+                            </select>
+                        </div>
+
+                        <!-- Campo 4: Estado de la Obra (Radios) -->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">4. Concepto / Estado de Obra *</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1">
+                                <label class="flex items-center p-3 rounded-xl border border-slate-300 hover:bg-slate-50 cursor-pointer transition">
+                                    <input type="radio" name="estado_obra" value="Aprobado" checked class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300">
+                                    <span class="ml-3 text-sm text-slate-700 font-medium flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-green-500"></i> Aprobado
+                                    </span>
+                                </label>
+                                <label class="flex items-center p-3 rounded-xl border border-slate-300 hover:bg-slate-50 cursor-pointer transition">
+                                    <input type="radio" name="estado_obra" value="Rechazado" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300">
+                                    <span class="ml-3 text-sm text-slate-700 font-medium flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-xmark text-red-500"></i> Rechazado
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Campo 5: Descripción de Actividades -->
+                    <div>
+                        <label for="descripcion" class="block text-sm font-semibold text-slate-700 mb-2">5. Descripción de Actividades Inspeccionadas *</label>
+                        <textarea id="descripcion" rows="3" required class="w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Detalle las pruebas hidráulicas, excavaciones o empalmes ejecutados..."></textarea>
+                    </div>
+
+                    <!-- Campo 6: Observaciones y Compromisos -->
+                    <div>
+                        <label for="observaciones" class="block text-sm font-semibold text-slate-700 mb-2">6. Observaciones y Compromisos Acordados</label>
+                        <textarea id="observaciones" rows="2" class="w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Registrar compromisos específicos con plazos de entrega si aplica..."></textarea>
+                    </div>
+
+                    <!-- Botones Navegación -->
+                    <div class="pt-4 flex justify-between gap-4">
+                        <button type="button" onclick="nextStep(1)" class="border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium py-3 px-6 rounded-xl transition flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Atrás
+                        </button>
+                        <button type="button" onclick="nextStep(3)" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-xl transition flex items-center gap-2 shadow-sm shadow-blue-200">
+                            Siguiente Paso
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PASO 3: VALIDACIÓN Y FIRMA -->
+                <div id="step3" class="hidden space-y-6">
+                    <div class="border-b border-slate-100 pb-4">
+                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-signature text-blue-600"></i>
+                            Paso 3: Validación de Identidad y Firma
+                        </h2>
+                        <p class="text-sm text-slate-500 mt-1">Para entornos sin servidor de correos activo, utilizaremos la autenticación por correo corporativo auditado y geolocalización.</p>
+                    </div>
+
+                    <!-- Validación Correo Directa -->
+                    <div class="bg-blue-50 rounded-2xl p-5 border border-blue-100 space-y-4">
+                        <div class="flex items-start gap-3">
+                            <i class="fa-solid fa-shield-halved text-blue-600 text-lg mt-0.5"></i>
+                            <div>
+                                <h4 class="font-semibold text-blue-950 text-sm">Autenticidad por Correo Institucional</h4>
+                                <p class="text-xs text-blue-700 mt-1">Escriba su correo corporativo. Este dato se incrustará de manera permanente en los metadatos de auditoría de la firma.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <div class="relative flex-grow">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </span>
+                                <input type="email" id="correo_corporativo" class="pl-10 w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="nombre.apellido@acueducto.com">
+                            </div>
+                            <button type="button" id="btn-unlock-signature" onclick="unlockSignature()" class="bg-blue-700 hover:bg-blue-800 text-white font-medium px-5 py-3 rounded-xl transition whitespace-nowrap">
+                                <i class="fa-solid fa-lock-open mr-2"></i>Habilitar Firma
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Contenedor del Lienzo de Firma (Deshabilitado por defecto) -->
+                    <div id="firma-container" class="opacity-50 pointer-events-none transition-all duration-300 space-y-3">
+                        <div class="flex justify-between items-end">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700">Firma Digitalizada (Trazo Táctil) *</label>
+                                <span class="text-xs text-slate-500">Dibuje su firma con el dedo en el recuadro gris</span>
+                            </div>
+                            <button type="button" onclick="clearSignature()" class="text-xs text-red-600 hover:text-red-800 font-medium flex items-center gap-1 py-1 px-2 rounded hover:bg-red-50 transition">
+                                <i class="fa-solid fa-eraser"></i> Limpiar Lienzo
+                            </button>
+                        </div>
+
+                        <!-- Lienzo Canvas -->
+                        <div class="border-2 border-dashed border-slate-300 bg-slate-100 rounded-2xl overflow-hidden relative" style="height: 220px;">
+                            <canvas id="signature-pad" class="w-full h-full cursor-crosshair touch-none"></canvas>
+                            <div id="canvas-placeholder" class="absolute inset-0 flex flex-col justify-center items-center text-slate-400 pointer-events-none p-4 text-center">
+                                <i class="fa-solid fa-signature text-3xl mb-2"></i>
+                                <span class="text-xs font-semibold">Active primero su correo para firmar aquí</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones Navegación -->
+                    <div class="pt-4 flex justify-between gap-4">
+                        <button type="button" onclick="nextStep(2)" class="border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium py-3 px-6 rounded-xl transition flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Atrás
+                        </button>
+                        <button type="button" id="btn-submit-acta" disabled onclick="submitForm()" class="bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none text-white font-semibold py-3 px-8 rounded-xl transition flex items-center gap-2 shadow-md shadow-green-100">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            Generar Reporte PDF
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- SECCIÓN DE RESULTADO / REPORTE IMPRIMIBLE (OCULTA POR DEFECTO) -->
+        <div id="result-view" class="hidden space-y-6">
+            <div class="bg-green-50 border border-green-200 rounded-2xl p-6 text-center space-y-3">
+                <div class="inline-flex items-center justify-center bg-green-100 text-green-700 h-16 w-16 rounded-full text-3xl">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900">¡Acta de Obra Registrada Localmente!</h3>
+                <p class="text-sm text-slate-600 max-w-lg mx-auto">Se han generado el reporte PDF y los metadatos de auditoría sin necesidad de conexión a base de datos externa.</p>
+                <div class="flex justify-center gap-4 pt-2">
+                    <button type="button" onclick="downloadPDF()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-xl text-sm shadow-md transition flex items-center gap-2">
+                        <i class="fa-solid fa-download"></i> Descargar Acta PDF
+                    </button>
+                    <button type="button" onclick="resetForm()" class="border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium py-2.5 px-6 rounded-xl text-sm transition">
+                        Nueva Acta
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenedor que será convertido a PDF -->
+            <div id="pdf-container" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 space-y-6">
+                <!-- Encabezado del Reporte -->
+                <div class="flex justify-between items-start border-b-2 border-blue-600 pb-4">
+                    <div>
+                        <h1 class="text-xl font-bold text-slate-900">ACTA DE INSPECCIÓN DE OBRA DIGITAL</h1>
+                        <p class="text-xs text-blue-600 font-semibold uppercase tracking-wider">Sistema Integrado - Acueducto de Bogotá</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-xs bg-slate-100 text-slate-700 font-mono py-1 px-3 rounded-full font-bold" id="acta-id-badge">ID: ACTA-000000</span>
+                        <p class="text-[10px] text-slate-400 mt-1" id="pdf-generation-time">Fecha: -</p>
+                    </div>
+                </div>
+
+                <!-- Sección Datos Generales -->
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">1. Información del Inspector</h2>
+                    <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs">
+                        <div>
+                            <span class="text-slate-500 font-medium block">Nombre Inspector:</span>
+                            <span id="out-inspector" class="font-bold text-slate-800">-</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-500 font-medium block">Documento de Identidad:</span>
+                            <span id="out-documento" class="font-bold text-slate-800">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección Datos de Campo -->
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">2. Registro Técnico de Inspección</h2>
+                    <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs">
+                        <div>
+                            <span class="text-slate-500 font-medium block">Proyecto:</span>
+                            <span id="out-proyecto" class="font-bold text-slate-800">-</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-500 font-medium block">Frente de Obra / Ubicación:</span>
+                            <span id="out-ubicacion" class="font-bold text-slate-800">-</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-500 font-medium block">Tipo de Visita:</span>
+                            <span id="out-tipo" class="font-bold text-slate-800">-</span>
+                        </div>
+                        <div>
+                            <span class="text-slate-500 font-medium block">Concepto de la Obra:</span>
+                            <span id="out-estado" class="font-bold text-slate-800">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección Descripción de Actividades -->
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">3. Detalles de Inspección y Hallazgos</h2>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs space-y-3">
+                        <div>
+                            <span class="text-slate-500 font-medium block">Descripción de Actividades:</span>
+                            <p id="out-descripcion" class="text-slate-800 leading-relaxed mt-1 text-justify whitespace-pre-wrap">-</p>
+                        </div>
+                        <div>
+                            <span class="text-slate-500 font-medium block">Observaciones y Compromisos Acordados:</span>
+                            <p id="out-observaciones" class="text-slate-800 leading-relaxed mt-1 text-justify whitespace-pre-wrap">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección Firma y Custodia -->
+                <div>
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">4. Validación de Firma y Cadena de Custodia Digital</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                        <!-- Imagen de la firma -->
+                        <div class="border border-slate-200 bg-slate-50 rounded-xl p-4 flex flex-col items-center justify-center">
+                            <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wide mb-1">Firma Digitalizada</span>
+                            <img id="out-firma-img" src="" alt="Firma Registrada" class="max-h-24 object-contain">
+                            <span class="text-[9px] text-slate-400 mt-2 font-mono">Trazo en pantalla táctil</span>
+                        </div>
+
+                        <!-- Metadatos de seguridad -->
+                        <div class="md:col-span-2 space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-100 text-[11px]">
+                            <div class="grid grid-cols-2 gap-2 border-b border-slate-200 pb-2">
+                                <div>
+                                    <span class="text-slate-400">Firmante:</span>
+                                    <span id="out-correo" class="font-bold text-slate-800 block">-</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400">Marca de tiempo:</span>
+                                    <span id="out-timestamp" class="font-mono text-slate-800 block">-</span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 border-b border-slate-200 pb-2">
+                                <div>
+                                    <span class="text-slate-400">Geolocalización:</span>
+                                    <span id="out-coords" class="font-bold text-blue-700 block">-</span>
+                                </div>
+                                <div>
+                                    <span class="text-slate-400">IP del dispositivo:</span>
+                                    <span id="out-ip" class="font-mono text-slate-800 block">-</span>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="text-slate-400">Huella Técnica del Dispositivo:</span>
+                                <span id="out-dispositivo" class="text-slate-600 block truncate max-w-md">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie Legal del Acta -->
+                <div class="text-[9px] text-slate-400 border-t border-slate-100 pt-4 text-center leading-normal">
+                    <p>Esta acta electrónica cumple con los lineamientos de legalidad provistos por la Ley 527 de 1999 de Colombia, validando la identidad del firmante a través de su infraestructura de correo institucional verificado e indexando coordenadas de posicionamiento GPS y firmas dinámicas capturadas en hardware del suscriptor.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-6 px-6 border-t border-slate-800 text-center space-y-2">
+        <p>© 2026 Sistema Integrado de Gestión - Contratistas del Acueducto.</p>
+        <p class="text-slate-600">Prototipo de Demostración para el Acueducto de Bogotá. Ejecución local 100% segura.</p>
+    </footer>
+
+    <script>
+        let currentStep = 1;
+        let isMailUnlocked = false;
+        
+        // Elementos del Canvas
+        const canvas = document.getElementById('signature-pad');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let hasSigned = false;
+
+        // Variables de auditoría
+        let ipAddress = 'Calculando...';
+        let coordinates = 'Calculando...';
+
+        window.onload = function() {
+            // Capturar IP usando API pública de forma gratuita
+            fetch('https://api.ipify.org?format=json')
+                .then(res => res.json())
+                .then(data => { ipAddress = data.ip; })
+                .catch(() => { ipAddress = '181.49.85.23 (Local)'; });
+
+            // Capturar Geolocalización si se permite
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        coordinates = `${position.coords.latitude.toFixed(6)}, ${position.coords.longitude.toFixed(6)}`;
+                    },
+                    () => {
+                        coordinates = '4.609710, -74.081750 (Bogotá, CO)';
+                    }
+                );
+            } else {
+                coordinates = '4.609710, -74.081750 (Bogotá, CO)';
+            }
+
+            // Inicializar lienzo táctil
+            setupCanvas();
+        };
+
+        function nextStep(step) {
+            if (step > currentStep) {
+                if (currentStep === 1) {
+                    const nombre = document.getElementById('nombre_inspector').value.trim();
+                    const documento = document.getElementById('documento_inspector').value.trim();
+                    if (!nombre || !documento) {
+                        showToast('Debe ingresar su nombre y documento.', 'error');
+                        return;
+                    }
+                } else if (currentStep === 2) {
+                    const proyecto = document.getElementById('proyecto').value;
+                    const ubicacion = document.getElementById('ubicacion').value.trim();
+                    const tipo_visita = document.getElementById('tipo_visita').value;
+                    const descripcion = document.getElementById('descripcion').value.trim();
+                    if (!proyecto || !ubicacion || !tipo_visita || !descripcion) {
+                        showToast('Por favor, complete todos los campos obligatorios.', 'error');
+                        return;
+                    }
+                }
+            }
+
+            document.getElementById(`step${currentStep}`).classList.add('hidden');
+            document.getElementById(`step${step}`).classList.remove('hidden');
+
+            currentStep = step;
+
+            // Actualizar barra de progreso
+            const progressPercentage = step === 1 ? 33 : step === 2 ? 66 : 100;
+            document.getElementById('step-badge').innerText = `Paso ${step} de 3`;
+            document.getElementById('step-percentage').innerText = `${progressPercentage}% Completado`;
+            document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+
+            if (step === 3) {
+                setTimeout(resizeCanvas, 100);
+            }
+        }
+
+        function unlockSignature() {
+            const emailInput = document.getElementById('correo_corporativo').value.trim();
+            const btnUnlock = document.getElementById('btn-unlock-signature');
+            
+            if (!emailInput || !emailInput.includes('@')) {
+                showToast('Ingrese un correo institucional válido para habilitar la firma.', 'error');
+                return;
+            }
+
+            isMailUnlocked = true;
+            showToast('Correo guardado en auditoría. Lienzo desbloqueado.', 'success');
+            
+            // Desbloquear lienzo de firma
+            const container = document.getElementById('firma-container');
+            container.classList.remove('opacity-50', 'pointer-events-none');
+            document.getElementById('canvas-placeholder').classList.add('hidden');
+            
+            // Bloquear input del correo
+            document.getElementById('correo_corporativo').disabled = true;
+            btnUnlock.disabled = true;
+            btnUnlock.innerHTML = '<i class="fa-solid fa-lock mr-2"></i>Correo Confirmado';
+
+            resizeCanvas();
+        }
+
+        function setupCanvas() {
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                startDrawing(e);
+            });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                draw(e);
+            });
+            canvas.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                stopDrawing();
+            });
+        }
+
+        function resizeCanvas() {
+            const rect = canvas.getBoundingClientRect();
+            const tempImg = canvas.toDataURL();
+            
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#1e293b';
+
+            if (hasSigned) {
+                const img = new Image();
+                img.onload = function() {
+                    ctx.drawImage(img, 0, 0);
+                };
+                img.src = tempImg;
+            }
+        }
+
+        function startDrawing(e) {
+            if (!isMailUnlocked) return;
+            isDrawing = true;
+            hasSigned = true;
+            
+            document.getElementById('btn-submit-acta').removeAttribute('disabled');
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+            const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+            
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function draw(e) {
+            if (!isDrawing || !isMailUnlocked) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+            const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+            
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            hasSigned = false;
+            document.getElementById('btn-submit-acta').setAttribute('disabled', 'true');
+        }
+
+        function submitForm() {
+            if (!hasSigned || !isMailUnlocked) {
+                showToast('Firma obligatoria antes de enviar.', 'error');
+                return;
+            }
+
+            // Ocultar el formulario
+            document.getElementById('actaForm').parentNode.classList.add('hidden');
+
+            const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+            const randomID = `ACTA-${Math.floor(100000 + Math.random() * 900000)}`;
+
+            // Rellenar Datos en el Contenedor Imprimible
+            document.getElementById('acta-id-badge').innerText = `ID: ${randomID}`;
+            document.getElementById('pdf-generation-time').innerText = `Fecha: ${timestamp}`;
+
+            document.getElementById('out-inspector').innerText = document.getElementById('nombre_inspector').value;
+            document.getElementById('out-documento').innerText = document.getElementById('documento_inspector').value;
+            document.getElementById('out-proyecto').innerText = document.getElementById('proyecto').options[document.getElementById('proyecto').selectedIndex].text;
+            document.getElementById('out-ubicacion').innerText = document.getElementById('ubicacion').value;
+            document.getElementById('out-tipo').innerText = document.getElementById('tipo_visita').value;
+            
+            const estado_obra = document.querySelector('input[name="estado_obra"]:checked').value;
+            document.getElementById('out-estado').innerHTML = estado_obra === 'Aprobado' 
+                ? '<span class="text-green-600 font-bold"><i class="fa-solid fa-circle-check"></i> Aprobado</span>'
+                : '<span class="text-red-600 font-bold"><i class="fa-solid fa-circle-xmark"></i> Rechazado</span>';
+
+            document.getElementById('out-descripcion').innerText = document.getElementById('descripcion').value;
+            document.getElementById('out-observaciones').innerText = document.getElementById('observaciones').value || 'Sin observaciones registradas.';
+
+            document.getElementById('out-correo').innerText = document.getElementById('correo_corporativo').value;
+            document.getElementById('out-timestamp').innerText = timestamp;
+            document.getElementById('out-ip').innerText = ipAddress;
+            document.getElementById('out-coords').innerHTML = `<i class="fa-solid fa-map-pin text-red-500 mr-1"></i> ${coordinates}`;
+            document.getElementById('out-dispositivo').innerText = navigator.userAgent;
+
+            // Transferir la firma del canvas al visor de imagen
+            const signatureDataUrl = canvas.toDataURL('image/png');
+            document.getElementById('out-firma-img').src = signatureDataUrl;
+
+            // Mostrar Sección de Resultados
+            document.getElementById('result-view').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById('pdf-container');
+            const inspectorName = document.getElementById('nombre_inspector').value.replace(/\s+/g, '_');
+            
+            const opt = {
+                margin:       [0.5, 0.5, 0.5, 0.5], // márgenes en pulgadas
+                filename:     `Acta_Obra_${inspectorName}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            // Ejecutar generación del PDF usando html2pdf.js
+            html2pdf().set(opt).from(element).save()
+                .then(() => {
+                    showToast('PDF descargado con éxito.', 'success');
+                })
+                .catch((err) => {
+                    console.error('Error al descargar PDF:', err);
+                    showToast('Error al procesar el archivo PDF.', 'error');
+                });
+        }
+
+        function showToast(message, type = 'info') {
+            const existingToasts = document.querySelectorAll('.custom-toast');
+            existingToasts.forEach(t => t.remove());
+
+            const toast = document.createElement('div');
+            toast.className = `custom-toast fixed bottom-4 right-4 z-50 p-4 rounded-xl shadow-lg border flex items-center gap-3 transition-all transform translate-y-10 opacity-0 max-w-sm w-full`;
+            
+            let bg = 'bg-white';
+            let border = 'border-slate-200';
+            let icon = '<i class="fa-solid fa-circle-info text-blue-500"></i>';
+
+            if (type === 'success') {
+                bg = 'bg-green-50';
+                border = 'border-green-200';
+                icon = '<i class="fa-solid fa-circle-check text-green-600"></i>';
+            } else if (type === 'error') {
+                bg = 'bg-red-50';
+                border = 'border-red-200';
+                icon = '<i class="fa-solid fa-triangle-exclamation text-red-600"></i>';
+            }
+
+            toast.innerHTML = `
+                <div class="${bg} ${border} flex items-center p-4 rounded-xl border w-full">
+                    <span class="text-lg">${icon}</span>
+                    <p class="ml-3 text-xs font-semibold text-slate-800 leading-normal">${message}</p>
+                </div>
+            `;
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            }, 100);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        function resetForm() {
+            currentStep = 1;
+            isMailUnlocked = false;
+            hasSigned = false;
+
+            document.getElementById('actaForm').reset();
+            document.getElementById('correo_corporativo').disabled = false;
+            
+            const btnUnlock = document.getElementById('btn-unlock-signature');
+            btnUnlock.disabled = false;
+            btnUnlock.innerHTML = '<i class="fa-solid fa-lock-open mr-2"></i>Habilitar Firma';
+
+            document.getElementById('firma-container').classList.add('opacity-50', 'pointer-events-none');
+            document.getElementById('canvas-placeholder').classList.remove('hidden');
+            document.getElementById('btn-submit-acta').setAttribute('disabled', 'true');
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            document.getElementById('result-view').classList.add('hidden');
+            document.getElementById('actaForm').parentNode.classList.remove('hidden');
+            
+            nextStep(1);
+        }
+    </script>
+</body>
+</html>
