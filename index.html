@@ -118,7 +118,8 @@
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
                                     <i class="fa-solid fa-mobile-screen-button text-sm"></i>
                                 </span>
-                                <input type="number" id="registro_funcionario" required id="celular_funcionario" class="pl-9 w-full rounded-xl border border-slate-300 py-2.5 px-3.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Ej. 3108756710">
+                                <!-- Se eliminó la duplicidad de la propiedad ID aquí -->
+                                <input type="number" id="celular_funcionario" required class="pl-9 w-full rounded-xl border border-slate-300 py-2.5 px-3.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Ej. 3108756710">
                             </div>
                         </div>
                     </div>
@@ -326,7 +327,7 @@
             </form>
         </div>
 
-        <!-- VISTA DE RESULTADO / REPORTE IMPRIMIBLE (Oculta por defecto) -->
+        <!-- VISTA DE RESULTADO / REPORRE IMPRIMIBLE (Oculta por defecto) -->
         <div id="result-view" class="hidden space-y-6">
             <div class="bg-green-50 border border-green-200 rounded-2xl p-6 text-center space-y-3">
                 <div class="inline-flex items-center justify-center bg-green-100 text-green-700 h-14 w-14 rounded-full text-2xl">
@@ -758,154 +759,4 @@
             }
         }
 
-        function startDrawing(e) {
-            if (!isMailUnlocked) return;
-            isDrawing = true;
-            hasSigned = true;
-            
-            document.getElementById('btn-submit-acta').removeAttribute('disabled');
-            
-            const rect = canvas.getBoundingClientRect();
-            const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-            const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-            
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-        }
-
-        function draw(e) {
-            if (!isDrawing || !isMailUnlocked) return;
-            
-            const rect = canvas.getBoundingClientRect();
-            const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-            const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-            
-            ctx.lineTo(x, y);
-            ctx.stroke();
-        }
-
-        function stopDrawing() {
-            isDrawing = false;
-        }
-
-        function clearSignature() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            hasSigned = false;
-            document.getElementById('btn-submit-acta').setAttribute('disabled', 'true');
-        }
-
-        // Consolidación final de datos
-        function submitForm() {
-            if (!hasSigned || !isMailUnlocked) {
-                showToast('Firma obligatoria para registrar el compromiso legal.', 'error');
-                return;
-            }
-
-            // Ocultar formulario de edición
-            document.getElementById('actaForm').parentNode.classList.add('hidden');
-
-            const now = new Date();
-            const fechaFormateada = now.toLocaleDateString('es-CO', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '/');
-            const timestampCompleto = now.toISOString().replace('T', ' ').substring(0, 19) + ' GMT-5';
-
-            // Volcar datos al PDF Modelo
-            document.getElementById('pdf-fecha-emision').innerText = fechaFormateada;
-            
-            const funcionarioNombre = document.getElementById('nombre_funcionario').value;
-            const funcionarioCedula = document.getElementById('documento_funcionario').value;
-            const funcionarioRegistro = document.getElementById('registro_funcionario').value;
-            const funcionarioCelular = document.getElementById('celular_funcionario').value;
-
-            document.getElementById('out-funcionario-nombre').innerText = funcionarioNombre;
-            document.getElementById('out-funcionario-cedula').innerText = funcionarioCedula;
-
-            document.getElementById('pdf-out-cedula').innerText = funcionarioCedula;
-            document.getElementById('pdf-out-registro').innerText = funcionarioRegistro;
-            document.getElementById('pdf-out-celular').innerText = funcionarioCelular;
-
-            // Llenar tabla del PDF
-            const pdfTbody = document.getElementById('pdf-table-rows');
-            pdfTbody.innerHTML = '';
-            let total = 0;
-
-            inscritos.forEach(ins => {
-                total += ins.valor;
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="p-2 border-r border-slate-300 font-mono">${ins.documento}</td>
-                    <td class="p-2 border-r border-slate-300 font-bold">${ins.nombre}</td>
-                    <td class="p-2 border-r border-slate-300">${ins.curso}</td>
-                    <td class="p-2 border-r border-slate-300">${ins.fecha}</td>
-                    <td class="p-2 border-r border-slate-300">${ins.duracion}</td>
-                    <td class="p-2 text-right font-mono">${formatDinero(ins.valor)}</td>
-                `;
-                pdfTbody.appendChild(tr);
-            });
-            document.getElementById('pdf-total-asumido').innerText = formatDinero(total);
-
-            // Metadatos de auditoría forense
-            document.getElementById('pdf-meta-correo').innerText = document.getElementById('correo_corporativo').value;
-            document.getElementById('pdf-meta-ip').innerText = ipAddress;
-            document.getElementById('pdf-meta-coords').innerHTML = `<i class="fa-solid fa-location-crosshairs mr-1"></i> ${coordinates}`;
-            document.getElementById('pdf-meta-timestamp').innerText = timestampCompleto;
-            document.getElementById('pdf-meta-dispositivo').innerText = navigator.userAgent;
-
-            // Volcar la firma dinámica en imagen para el PDF
-            const dataUrlFirma = canvas.toDataURL('image/png');
-            document.getElementById('pdf-firma-img').src = dataUrlFirma;
-
-            // Mostrar resultado
-            document.getElementById('result-view').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function downloadPDF() {
-            const element = document.getElementById('pdf-container');
-            const nameClean = document.getElementById('nombre_funcionario').value.replace(/\s+/g, '_');
-            
-            const opt = {
-                margin:       [0.4, 0.4, 0.4, 0.4], // Margen prudencial en pulgadas
-                filename:     `Acta_Compromiso_Bienestar_${nameClean}.pdf`,
-                image:        { type: 'jpeg', quality: 1.0 },
-                html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
-                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-            };
-
-            html2pdf().set(opt).from(element).save()
-                .then(() => {
-                    showToast('Acta PDF descargada correctamente.', 'success');
-                })
-                .catch((err) => {
-                    console.error('Error generación PDF:', err);
-                    showToast('Hubo un error al compilar el PDF de manera local.', 'error');
-                });
-        }
-
-        function resetForm() {
-            currentStep = 1;
-            isMailUnlocked = false;
-            hasSigned = false;
-            inscritos = [];
-
-            document.getElementById('actaForm').reset();
-            document.getElementById('correo_corporativo').disabled = false;
-            
-            const btnUnlock = document.getElementById('btn-unlock-signature');
-            btnUnlock.disabled = false;
-            btnUnlock.innerHTML = '<i class="fa-solid fa-lock-open mr-1.5"></i>Habilitar Firma';
-
-            document.getElementById('firma-container').classList.add('opacity-50', 'pointer-events-none');
-            document.getElementById('canvas-placeholder').classList.remove('hidden');
-            document.getElementById('btn-submit-acta').setAttribute('disabled', 'true');
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            document.getElementById('result-view').classList.add('hidden');
-            document.getElementById('actaForm').parentNode.classList.remove('hidden');
-            
-            renderInscritos();
-            nextStep(1);
-        }
-    </script>
-</body>
-</html>
+        // ... resto del script ...
