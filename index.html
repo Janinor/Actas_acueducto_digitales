@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acta de Obra Digital - Acueducto (Estático)</title>
+    <title>Acta de Compromiso de Asistencia - EAAB-ESP</title>
     <!-- Tailwind CSS para diseño moderno -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter -->
@@ -17,242 +17,307 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        .no-scroll {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
+        /* Estilos específicos para impresión/PDF */
+        .pdf-page {
+            font-family: 'Arial', sans-serif;
+            color: #1a1a1a;
+        }
+        .pdf-table th {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            font-weight: bold;
+            text-align: left;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+        .pdf-table td {
+            font-size: 10px;
+            border-bottom: 1px solid #e2e8f0;
         }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
 
-    <!-- Cabecera -->
-    <header class="bg-blue-700 text-white shadow-md py-4 px-6 sticky top-0 z-40">
+    <!-- Cabecera Institucional -->
+    <header class="bg-blue-800 text-white shadow-md py-4 px-6 sticky top-0 z-40">
         <div class="max-w-3xl mx-auto flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="bg-blue-600 p-2 rounded-lg text-white">
-                    <i class="fa-solid fa-water-ladder text-xl"></i>
+                <div class="bg-white p-2 rounded-lg text-blue-800 flex items-center justify-center font-bold text-lg h-10 w-10">
+                    <i class="fa-solid fa-droplet text-blue-600"></i>
                 </div>
                 <div>
-                    <h1 class="text-lg font-bold tracking-tight leading-none">Acueducto Digital</h1>
-                    <span class="text-xs text-blue-200">Generación Descentralizada de Actas</span>
+                    <h1 class="text-sm md:text-base font-bold tracking-tight leading-none uppercase">Bienestar EAAB-ESP</h1>
+                    <span class="text-[10px] md:text-xs text-blue-200">Acta de Compromiso de Asistencia</span>
                 </div>
             </div>
-            <span class="bg-blue-800 text-xs px-3 py-1 rounded-full text-blue-200 font-medium">Modo Estático / Seguro</span>
+            <span class="bg-blue-900 text-[10px] md:text-xs px-3 py-1 rounded-full text-blue-200 font-medium border border-blue-700">Formulario Autónomo</span>
         </div>
     </header>
 
     <!-- Contenido Principal -->
     <main class="max-w-3xl w-full mx-auto p-4 md:py-8 flex-grow">
         <!-- Indicador de Pasos -->
-        <div class="mb-8">
+        <div class="mb-6">
             <div class="flex items-center justify-between text-xs text-slate-500 font-semibold mb-3">
                 <span id="step-badge" class="bg-blue-100 text-blue-800 px-2.5 py-0.5 rounded-full">Paso 1 de 3</span>
                 <span id="step-percentage">33% Completado</span>
             </div>
-            <div class="w-full bg-slate-200 rounded-full h-2.5">
-                <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" style="width: 33%"></div>
+            <div class="w-full bg-slate-200 rounded-full h-2">
+                <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 33%"></div>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 md:p-8">
             <form id="actaForm" onsubmit="return false;">
                 
-                <!-- PASO 1: DATOS GENERALES -->
+                <!-- PASO 1: DATOS DEL FUNCIONARIO -->
                 <div id="step1" class="space-y-6">
                     <div class="border-b border-slate-100 pb-4">
-                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-                            <i class="fa-solid fa-user-tie text-blue-600"></i>
-                            Paso 1: Datos Generales del Inspector
+                        <h2 class="text-lg md:text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-id-card-clip text-blue-600"></i>
+                            Paso 1: Identificación del Servidor Público
                         </h2>
-                        <p class="text-sm text-slate-500 mt-1">Ingrese la información básica de la persona que diligencia o supervisa la visita.</p>
+                        <p class="text-xs text-slate-500 mt-1">Ingrese sus datos de funcionario activo de la Empresa de Acueducto y Alcantarillado de Bogotá.</p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
-                            <label for="nombre_inspector" class="block text-sm font-semibold text-slate-700 mb-2">Nombre Completo *</label>
+                            <label for="nombre_funcionario" class="block text-xs font-semibold text-slate-700 mb-2">Nombre Completo (Tal como aparece en cédula) *</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
-                                    <i class="fa-solid fa-user"></i>
+                                    <i class="fa-solid fa-user text-sm"></i>
                                 </span>
-                                <input type="text" id="nombre_inspector" required class="pl-10 w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Ej. Carlos Gómez">
+                                <input type="text" id="nombre_funcionario" required class="pl-9 w-full rounded-xl border border-slate-300 py-2.5 px-3.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Ej. David Edidier Avila Galeano">
                             </div>
                         </div>
 
                         <div>
-                            <label for="documento_inspector" class="block text-sm font-semibold text-slate-700 mb-2">Documento de Identidad *</label>
+                            <label for="documento_funcionario" class="block text-xs font-semibold text-slate-700 mb-2">Cédula de Ciudadanía *</label>
                             <div class="relative">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
-                                    <i class="fa-solid fa-id-card"></i>
+                                    <i class="fa-solid fa-address-card text-sm"></i>
                                 </span>
-                                <input type="number" id="documento_inspector" required class="pl-10 w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Ej. 1024345678">
+                                <input type="number" id="documento_funcionario" required class="pl-9 w-full rounded-xl border border-slate-300 py-2.5 px-3.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Ej. 1031135073">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="registro_funcionario" class="block text-xs font-semibold text-slate-700 mb-2">Número de Registro Interno *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                    <i class="fa-solid fa-hashtag text-sm"></i>
+                                </span>
+                                <input type="number" id="registro_funcionario" required class="pl-9 w-full rounded-xl border border-slate-300 py-2.5 px-3.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Ej. 36003642">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="celular_funcionario" class="block text-xs font-semibold text-slate-700 mb-2">Número Celular de Contacto *</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                    <i class="fa-solid fa-mobile-screen-button text-sm"></i>
+                                </span>
+                                <input type="number" id="celular_funcionario" required class="pl-9 w-full rounded-xl border border-slate-300 py-2.5 px-3.5 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Ej. 3108756710">
                             </div>
                         </div>
                     </div>
 
                     <div class="pt-4 flex justify-end">
-                        <button type="button" onclick="nextStep(2)" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-xl transition flex items-center gap-2 shadow-sm shadow-blue-200">
+                        <button type="button" onclick="nextStep(2)" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-5 rounded-xl text-sm transition flex items-center gap-2 shadow-sm shadow-blue-200">
                             Siguiente Paso
-                            <i class="fa-solid fa-arrow-right"></i>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- PASO 2: REGISTRO DE CAMPO -->
+                <!-- PASO 2: CURSOS Y BENEFICIARIOS -->
                 <div id="step2" class="hidden space-y-6">
                     <div class="border-b border-slate-100 pb-4">
-                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
-                            <i class="fa-solid fa-helmet-safety text-blue-600"></i>
-                            Paso 2: Registro de Campo e Inspección
+                        <h2 class="text-lg md:text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-graduation-cap text-blue-600"></i>
+                            Paso 2: Personas y Programas a Inscribir
                         </h2>
-                        <p class="text-sm text-slate-500 mt-1">Diligencie los 6 campos clave para garantizar la trazabilidad de la obra.</p>
+                        <p class="text-xs text-slate-500 mt-1">Inscriba los cursos o gimnasios para usted o sus beneficiarios del plan de bienestar.</p>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Campo 1: Nombre/Código del Proyecto -->
-                        <div>
-                            <label for="proyecto" class="block text-sm font-semibold text-slate-700 mb-2">1. Proyecto de Obra *</label>
-                            <select id="proyecto" required class="w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                                <option value="">Seleccione un proyecto...</option>
-                                <option value="ACU-SUR">Acueducto Matriz Sur (Fase II)</option>
-                                <option value="RED-NORTE">Redes de Distribución Norte</option>
-                                <option value="TAN-ORIENTE">Tanque de Almacenamiento Oriente</option>
-                                <option value="PTAP-CENTRO">Planta de Tratamiento Centro</option>
-                            </select>
-                        </div>
-
-                        <!-- Campo 2: Frente de Obra / Ubicación -->
-                        <div>
-                            <label for="ubicacion" class="block text-sm font-semibold text-slate-700 mb-2">2. Ubicación / Frente de Obra *</label>
-                            <div class="relative">
-                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
-                                    <i class="fa-solid fa-location-dot"></i>
-                                </span>
-                                <input type="text" id="ubicacion" required class="pl-10 w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Ej. Calle 45 Sur #24-10">
+                    <!-- Mini Formulario de Entrada Rápida -->
+                    <div class="bg-slate-50 rounded-2xl p-4 border border-slate-200 space-y-4">
+                        <h3 class="text-xs font-bold text-slate-700 uppercase tracking-wider">Añadir Inscrito / Programa</h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            <div>
+                                <label for="temp_doc" class="block text-[11px] font-semibold text-slate-600 mb-1">Documento de Identidad</label>
+                                <input type="number" id="temp_doc" class="w-full rounded-lg border border-slate-300 py-1.5 px-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Cédula o tarjeta de identidad">
+                            </div>
+                            <div>
+                                <label for="temp_nombre" class="block text-[11px] font-semibold text-slate-600 mb-1">Nombre Completo</label>
+                                <input type="text" id="temp_nombre" class="w-full rounded-lg border border-slate-300 py-1.5 px-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Nombre completo">
+                            </div>
+                            <div>
+                                <label for="temp_curso" class="block text-[11px] font-semibold text-slate-600 mb-1">Curso o Gimnasio</label>
+                                <select id="temp_curso" class="w-full rounded-lg border border-slate-300 py-1.5 px-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Gimnasio SmartFit">Gimnasio SmartFit</option>
+                                    <option value="Plan Bienestar 360">Plan Bienestar 360</option>
+                                    <option value="Fitnest Spa">Fitnest Spa</option>
+                                    <option value="Curso 4 clases">Curso de Bienestar (4 clases)</option>
+                                    <option value="Curso 8 clases">Curso de Bienestar (8 clases)</option>
+                                    <option value="Curso 16 clases">Curso de Bienestar (16 clases)</option>
+                                    <option value="Escuela Deportiva">Escuela Deportiva Compensar</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="temp_fecha" class="block text-[11px] font-semibold text-slate-600 mb-1">Fecha de Inicio</label>
+                                <input type="date" id="temp_fecha" class="w-full rounded-lg border border-slate-300 py-1.5 px-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label for="temp_duracion" class="block text-[11px] font-semibold text-slate-600 mb-1">Duración (Ej: 30 días)</label>
+                                <input type="text" id="temp_duracion" class="w-full rounded-lg border border-slate-300 py-1.5 px-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej. 30 días, 1 semestre">
+                            </div>
+                            <div>
+                                <label for="temp_valor" class="block text-[11px] font-semibold text-slate-600 mb-1">Valor Asumido por la EAAB ($)</label>
+                                <input type="number" id="temp_valor" class="w-full rounded-lg border border-slate-300 py-1.5 px-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej. 96900">
                             </div>
                         </div>
 
-                        <!-- Campo 3: Tipo de Visita -->
-                        <div>
-                            <label for="tipo_visita" class="block text-sm font-semibold text-slate-700 mb-2">3. Tipo de Visita *</label>
-                            <select id="tipo_visita" required class="w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
-                                <option value="">Seleccione el tipo...</option>
-                                <option value="Tecnica">Inspección Técnica de Obra</option>
-                                <option value="Ambiental">Auditoría Ambiental</option>
-                                <option value="SST">Control Seguridad y Salud (SST)</option>
-                                <option value="Entrega">Entrega Parcial / Recibo</option>
-                            </select>
-                        </div>
-
-                        <!-- Campo 4: Estado de la Obra (Radios) -->
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-2">4. Concepto / Estado de Obra *</label>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-1">
-                                <label class="flex items-center p-3 rounded-xl border border-slate-300 hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="estado_obra" value="Aprobado" checked class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300">
-                                    <span class="ml-3 text-sm text-slate-700 font-medium flex items-center gap-2">
-                                        <i class="fa-solid fa-circle-check text-green-500"></i> Aprobado
-                                    </span>
-                                </label>
-                                <label class="flex items-center p-3 rounded-xl border border-slate-300 hover:bg-slate-50 cursor-pointer transition">
-                                    <input type="radio" name="estado_obra" value="Rechazado" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300">
-                                    <span class="ml-3 text-sm text-slate-700 font-medium flex items-center gap-2">
-                                        <i class="fa-solid fa-circle-xmark text-red-500"></i> Rechazado
-                                    </span>
-                                </label>
-                            </div>
+                        <div class="flex justify-end pt-2">
+                            <button type="button" onclick="addInscrito()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg text-xs transition flex items-center gap-1">
+                                <i class="fa-solid fa-plus"></i> Agregar Inscrito
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Campo 5: Descripción de Actividades -->
-                    <div>
-                        <label for="descripcion" class="block text-sm font-semibold text-slate-700 mb-2">5. Descripción de Actividades Inspeccionadas *</label>
-                        <textarea id="descripcion" rows="3" required class="w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Detalle las pruebas hidráulicas, excavaciones o empalmes ejecutados..."></textarea>
-                    </div>
-
-                    <!-- Campo 6: Observaciones y Compromisos -->
-                    <div>
-                        <label for="observaciones" class="block text-sm font-semibold text-slate-700 mb-2">6. Observaciones y Compromisos Acordados</label>
-                        <textarea id="observaciones" rows="2" class="w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Registrar compromisos específicos con plazos de entrega si aplica..."></textarea>
+                    <!-- Tabla de Inscritos Registrados -->
+                    <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200 text-slate-700 font-bold">
+                                    <th class="p-3">Número Documento</th>
+                                    <th class="p-3">Nombre Completo</th>
+                                    <th class="p-3">Curso o Gimnasio</th>
+                                    <th class="p-3">Fecha Inicio</th>
+                                    <th class="p-3">Duración</th>
+                                    <th class="p-3 text-right">Valor EAAB</th>
+                                    <th class="p-3 text-center">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inscritos-table-body" class="divide-y divide-slate-200">
+                                <!-- Filas dinámicas aquí -->
+                                <tr id="no-rows-msg" class="text-slate-400">
+                                    <td colspan="7" class="p-4 text-center">No ha agregado ningún inscrito todavía. Utilice el panel superior.</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-slate-50 font-bold border-t border-slate-300">
+                                    <td colspan="5" class="p-3 text-right text-slate-600">Total Asumido por la EAAB:</td>
+                                    <td id="total-asumido-label" class="p-3 text-right text-slate-900">$0</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
 
                     <!-- Botones Navegación -->
                     <div class="pt-4 flex justify-between gap-4">
-                        <button type="button" onclick="nextStep(1)" class="border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium py-3 px-6 rounded-xl transition flex items-center gap-2">
-                            <i class="fa-solid fa-arrow-left"></i>
+                        <button type="button" onclick="nextStep(1)" class="border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium py-2.5 px-5 rounded-xl text-sm transition flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-left text-xs"></i>
                             Atrás
                         </button>
-                        <button type="button" onclick="nextStep(3)" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-xl transition flex items-center gap-2 shadow-sm shadow-blue-200">
+                        <button type="button" onclick="nextStep(3)" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-5 rounded-xl text-sm transition flex items-center gap-2 shadow-sm shadow-blue-200">
                             Siguiente Paso
-                            <i class="fa-solid fa-arrow-right"></i>
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- PASO 3: VALIDACIÓN Y FIRMA -->
+                <!-- PASO 3: COMPROMISOS Y FIRMA -->
                 <div id="step3" class="hidden space-y-6">
                     <div class="border-b border-slate-100 pb-4">
-                        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                        <h2 class="text-lg md:text-xl font-bold text-slate-900 flex items-center gap-2">
                             <i class="fa-solid fa-signature text-blue-600"></i>
-                            Paso 3: Validación de Identidad y Firma
+                            Paso 3: Compromiso Legal y Firma Táctil
                         </h2>
-                        <p class="text-sm text-slate-500 mt-1">Para entornos sin servidor de correos activo, utilizaremos la autenticación por correo corporativo auditado y geolocalización.</p>
+                        <p class="text-xs text-slate-500 mt-1">Revise las condiciones mínimas obligatorias y firme digitalmente.</p>
                     </div>
 
-                    <!-- Validación Correo Directa -->
-                    <div class="bg-blue-50 rounded-2xl p-5 border border-blue-100 space-y-4">
-                        <div class="flex items-start gap-3">
-                            <i class="fa-solid fa-shield-halved text-blue-600 text-lg mt-0.5"></i>
+                    <!-- Términos y Parámetros del PDF real -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-xs space-y-3 max-h-60 overflow-y-auto text-slate-600 leading-relaxed">
+                        <h4 class="font-bold text-slate-900 uppercase">Cláusulas de Asistencia Mínima Obligatoria:</h4>
+                        
+                        <div class="space-y-2 pl-2 border-l-2 border-blue-500">
+                            <p class="font-semibold text-slate-800">Acondicionamiento físico:</p>
+                            <ul class="list-disc pl-4 space-y-1">
+                                <li><strong>Gimnasio SmartFit:</strong> Doce asistencias (12) mensuales presenciales diarias, (válida una asistencia diaria).</li>
+                                <li><strong>Planes de Bienestar (360, Fitnest Spa y otros):</strong> Doce asistencias (12) mensuales presenciales diarias, (válida una asistencia diaria).</li>
+                            </ul>
+
+                            <p class="font-semibold text-slate-800 mt-2">Escuelas de formación y deportes:</p>
+                            <ul class="list-disc pl-4 space-y-1">
+                                <li><strong>Cursos de 4 clases:</strong> Mínimo 3 clases de asistencia.</li>
+                                <li><strong>Cursos de 8 clases:</strong> Mínimo 6 clases de asistencia.</li>
+                                <li><strong>Cursos de 16 clases:</strong> Mínimo 14 clases de asistencia.</li>
+                            </ul>
+                        </div>
+
+                        <p class="font-bold text-red-700 bg-red-50 p-2.5 rounded-lg border border-red-100">
+                            AUTORIZACIÓN DE DESCUENTO: En caso de injustificada inasistencia o inscripciones a más de dos (2) programas por grupo familiar, autorizo de manera expresa, voluntaria e irrevocable a la EMPRESA DE ACUEDUCTO Y ALCANTARILLADO DE BOGOTÁ - E.S.P. para que me realice el descuento por nómina del valor correspondiente asumido por la entidad, de cualquiera de mis haberes (salario, primas, cesantías). Adicionalmente, se aplicará una suspensión del acceso al convenio por dos (2) meses.
+                        </p>
+                    </div>
+
+                    <!-- Verificación de Correo Corporativo -->
+                    <div class="bg-blue-50 rounded-2xl p-4 border border-blue-100 space-y-3">
+                        <div class="flex items-start gap-2.5">
+                            <i class="fa-solid fa-shield-halved text-blue-600 text-sm mt-0.5"></i>
                             <div>
-                                <h4 class="font-semibold text-blue-950 text-sm">Autenticidad por Correo Institucional</h4>
-                                <p class="text-xs text-blue-700 mt-1">Escriba su correo corporativo. Este dato se incrustará de manera permanente en los metadatos de auditoría de la firma.</p>
+                                <h4 class="font-bold text-blue-950 text-xs">Identificación Electrónica Auditada</h4>
+                                <p class="text-[11px] text-blue-700 mt-0.5">Escriba su correo corporativo de la EAAB para validar e incrustar la cadena de custodia en el documento.</p>
                             </div>
                         </div>
 
                         <div class="flex flex-col sm:flex-row gap-3">
                             <div class="relative flex-grow">
                                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
-                                    <i class="fa-solid fa-envelope"></i>
+                                    <i class="fa-solid fa-envelope text-xs"></i>
                                 </span>
-                                <input type="email" id="correo_corporativo" class="pl-10 w-full rounded-xl border border-slate-300 py-3 px-4 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="nombre.apellido@acueducto.com">
+                                <input type="email" id="correo_corporativo" class="pl-9 w-full rounded-lg border border-slate-300 py-2 px-3 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="nombre.apellido@acueducto.com.co">
                             </div>
-                            <button type="button" id="btn-unlock-signature" onclick="unlockSignature()" class="bg-blue-700 hover:bg-blue-800 text-white font-medium px-5 py-3 rounded-xl transition whitespace-nowrap">
-                                <i class="fa-solid fa-lock-open mr-2"></i>Habilitar Firma
+                            <button type="button" id="btn-unlock-signature" onclick="unlockSignature()" class="bg-blue-700 hover:bg-blue-800 text-white font-medium px-4 py-2 rounded-lg text-xs transition">
+                                <i class="fa-solid fa-lock-open mr-1.5"></i>Habilitar Firma
                             </button>
                         </div>
                     </div>
 
-                    <!-- Contenedor del Lienzo de Firma (Deshabilitado por defecto) -->
-                    <div id="firma-container" class="opacity-50 pointer-events-none transition-all duration-300 space-y-3">
+                    <!-- Contenedor del Lienzo de Firma -->
+                    <div id="firma-container" class="opacity-50 pointer-events-none transition-all duration-300 space-y-2">
                         <div class="flex justify-between items-end">
                             <div>
-                                <label class="block text-sm font-semibold text-slate-700">Firma Digitalizada (Trazo Táctil) *</label>
-                                <span class="text-xs text-slate-500">Dibuje su firma con el dedo en el recuadro gris</span>
+                                <label class="block text-xs font-semibold text-slate-700">Firma del Funcionario (Trazo en pantalla) *</label>
+                                <span class="text-[10px] text-slate-500">Firme de manera clara utilizando su dedo o un lápiz óptico</span>
                             </div>
-                            <button type="button" onclick="clearSignature()" class="text-xs text-red-600 hover:text-red-800 font-medium flex items-center gap-1 py-1 px-2 rounded hover:bg-red-50 transition">
-                                <i class="fa-solid fa-eraser"></i> Limpiar Lienzo
+                            <button type="button" onclick="clearSignature()" class="text-[10px] text-red-600 hover:text-red-800 font-semibold flex items-center gap-1 py-1 px-2 rounded hover:bg-red-50 transition">
+                                <i class="fa-solid fa-eraser"></i> Limpiar
                             </button>
                         </div>
 
                         <!-- Lienzo Canvas -->
-                        <div class="border-2 border-dashed border-slate-300 bg-slate-100 rounded-2xl overflow-hidden relative" style="height: 220px;">
+                        <div class="border-2 border-dashed border-slate-300 bg-slate-100 rounded-2xl overflow-hidden relative" style="height: 180px;">
                             <canvas id="signature-pad" class="w-full h-full cursor-crosshair touch-none"></canvas>
                             <div id="canvas-placeholder" class="absolute inset-0 flex flex-col justify-center items-center text-slate-400 pointer-events-none p-4 text-center">
-                                <i class="fa-solid fa-signature text-3xl mb-2"></i>
-                                <span class="text-xs font-semibold">Active primero su correo para firmar aquí</span>
+                                <i class="fa-solid fa-signature text-2xl mb-1"></i>
+                                <span class="text-[10px] font-semibold">Registre su correo para desbloquear el pad de firma</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Botones Navegación -->
                     <div class="pt-4 flex justify-between gap-4">
-                        <button type="button" onclick="nextStep(2)" class="border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium py-3 px-6 rounded-xl transition flex items-center gap-2">
-                            <i class="fa-solid fa-arrow-left"></i>
+                        <button type="button" onclick="nextStep(2)" class="border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium py-2.5 px-5 rounded-xl text-sm transition flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-left text-xs"></i>
                             Atrás
                         </button>
-                        <button type="button" id="btn-submit-acta" disabled onclick="submitForm()" class="bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none text-white font-semibold py-3 px-8 rounded-xl transition flex items-center gap-2 shadow-md shadow-green-100">
-                            <i class="fa-solid fa-file-pdf"></i>
-                            Generar Reporte PDF
+                        <button type="button" id="btn-submit-acta" disabled onclick="submitForm()" class="bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none text-white font-bold py-2.5 px-6 rounded-xl text-sm transition flex items-center gap-2 shadow-md shadow-green-100">
+                            <i class="fa-solid fa-file-pdf text-xs"></i>
+                            Generar Compromiso PDF
                         </button>
                     </div>
                 </div>
@@ -260,151 +325,174 @@
             </form>
         </div>
 
-        <!-- SECCIÓN DE RESULTADO / REPORTE IMPRIMIBLE (OCULTA POR DEFECTO) -->
+        <!-- VISTA DE RESULTADO / REPORTE IMPRIMIBLE (Oculta por defecto) -->
         <div id="result-view" class="hidden space-y-6">
             <div class="bg-green-50 border border-green-200 rounded-2xl p-6 text-center space-y-3">
-                <div class="inline-flex items-center justify-center bg-green-100 text-green-700 h-16 w-16 rounded-full text-3xl">
+                <div class="inline-flex items-center justify-center bg-green-100 text-green-700 h-14 w-14 rounded-full text-2xl">
                     <i class="fa-solid fa-circle-check"></i>
                 </div>
-                <h3 class="text-2xl font-bold text-slate-900">¡Acta de Obra Registrada Localmente!</h3>
-                <p class="text-sm text-slate-600 max-w-lg mx-auto">Se han generado el reporte PDF y los metadatos de auditoría sin necesidad de conexión a base de datos externa.</p>
-                <div class="flex justify-center gap-4 pt-2">
-                    <button type="button" onclick="downloadPDF()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-xl text-sm shadow-md transition flex items-center gap-2">
-                        <i class="fa-solid fa-download"></i> Descargar Acta PDF
+                <h3 class="text-xl font-bold text-slate-900">¡Acta de Compromiso Firmada con Éxito!</h3>
+                <p class="text-xs text-slate-600 max-w-lg mx-auto">El acta ha sido sellada digitalmente con su huella de dispositivo y correo corporativo. Descargue el PDF oficial a continuación.</p>
+                <div class="flex flex-wrap justify-center gap-3 pt-2">
+                    <button type="button" onclick="downloadPDF()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-lg text-xs shadow-md transition flex items-center gap-2">
+                        <i class="fa-solid fa-download"></i> Descargar Documento PDF
                     </button>
-                    <button type="button" onclick="resetForm()" class="border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium py-2.5 px-6 rounded-xl text-sm transition">
-                        Nueva Acta
+                    <button type="button" onclick="resetForm()" class="border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium py-2 px-5 rounded-lg text-xs transition">
+                        Crear Nueva Acta
                     </button>
                 </div>
             </div>
 
-            <!-- Contenedor que será convertido a PDF -->
-            <div id="pdf-container" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8 space-y-6">
-                <!-- Encabezado del Reporte -->
-                <div class="flex justify-between items-start border-b-2 border-blue-600 pb-4">
-                    <div>
-                        <h1 class="text-xl font-bold text-slate-900">ACTA DE INSPECCIÓN DE OBRA DIGITAL</h1>
-                        <p class="text-xs text-blue-600 font-semibold uppercase tracking-wider">Sistema Integrado - Acueducto de Bogotá</p>
+            <!-- CONTENEDOR MODELO PDF (Imita fielmente la plantilla real del Acueducto de Bogotá) -->
+            <div id="pdf-container" class="bg-white p-10 max-w-[800px] mx-auto border border-slate-300 text-slate-900 leading-normal pdf-page space-y-4">
+                
+                <!-- Encabezado Corporativo Oficial de la EAAB -->
+                <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                    <div class="flex flex-col">
+                        <span class="text-[13px] font-black tracking-widest text-blue-900 uppercase">acueducto</span>
+                        <span class="text-[8px] font-bold text-slate-600 leading-none">AGUA Y ALCANTARILLADO DE BOGOTÁ</span>
                     </div>
-                    <div class="text-right">
-                        <span class="text-xs bg-slate-100 text-slate-700 font-mono py-1 px-3 rounded-full font-bold" id="acta-id-badge">ID: ACTA-000000</span>
-                        <p class="text-[10px] text-slate-400 mt-1" id="pdf-generation-time">Fecha: -</p>
-                    </div>
-                </div>
-
-                <!-- Sección Datos Generales -->
-                <div>
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">1. Información del Inspector</h2>
-                    <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs">
-                        <div>
-                            <span class="text-slate-500 font-medium block">Nombre Inspector:</span>
-                            <span id="out-inspector" class="font-bold text-slate-800">-</span>
-                        </div>
-                        <div>
-                            <span class="text-slate-500 font-medium block">Documento de Identidad:</span>
-                            <span id="out-documento" class="font-bold text-slate-800">-</span>
-                        </div>
+                    <div class="text-right flex flex-col items-end">
+                        <span class="text-[9px] font-bold text-slate-800 leading-none uppercase">Gerencia Corporativa de Gestión Humana y Administrativa</span>
+                        <span class="text-[8px] text-slate-500 leading-none">Dirección Mejoramiento Calidad de Vida</span>
                     </div>
                 </div>
 
-                <!-- Sección Datos de Campo -->
-                <div>
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">2. Registro Técnico de Inspección</h2>
-                    <div class="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs">
-                        <div>
-                            <span class="text-slate-500 font-medium block">Proyecto:</span>
-                            <span id="out-proyecto" class="font-bold text-slate-800">-</span>
+                <!-- Título Oficial del Acta -->
+                <div class="text-center py-2">
+                    <h1 class="text-xs font-extrabold tracking-tight text-slate-900 uppercase">
+                        ACTA DE COMPROMISO DE ASISTENCIA A ACTIVIDADES DEL PLAN DE BIENESTAR DE LA EAAB-ESP
+                    </h1>
+                </div>
+
+                <!-- Fecha y Lugar -->
+                <div class="text-right text-[10px] font-bold">
+                    Bogotá, D.C., <span id="pdf-fecha-emision"></span>
+                </div>
+
+                <!-- Texto de Identificación y Compromiso -->
+                <div class="text-[10.5px] text-justify leading-relaxed">
+                    Yo, <span id="out-funcionario-nombre" class="font-bold underline"></span>, identificado(a) con cédula de ciudadanía número <span id="out-funcionario-cedula" class="font-bold"></span> en mi calidad de servidor(a) público(a) de la EAAB-ESP, manifiesto de manera libre, voluntaria y consciente mi compromiso de cumplir con la asistencia mínima requerida, tanto para mí como para mis beneficiarios(as), a las actividades del Convenio EAAB-ESP-Compensar, conforme a los siguientes parámetros:
+                </div>
+
+                <!-- Parámetros de asistencia -->
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-[9.5px] space-y-1">
+                    <p class="font-bold text-slate-900">Asistencia mínima obligatoria:</p>
+                    
+                    <p class="font-semibold text-slate-800">Acondicionamiento físico:</p>
+                    <ul class="list-disc pl-4 space-y-0.5 text-slate-700">
+                        <li><strong>Gimnasio SmartFit:</strong> Doce asistencias (12) mensuales presenciales diarias, (válida una asistencia diaria).</li>
+                        <li><strong>Planes de Bienestar (360, Fitnest Spa y otros):</strong> Doce asistencias (12) mensuales presenciales diarias, (válida una asistencia diaria).</li>
+                    </ul>
+
+                    <p class="font-semibold text-slate-800 pt-1">Escuelas de formación y deportes:</p>
+                    <ul class="list-disc pl-4 space-y-0.5 text-slate-700">
+                        <li>Cursos de 4 clases: mínimo 3 clases de asistencia.</li>
+                        <li>Cursos de 8 clases: mínimo 6 clases de asistencia.</li>
+                        <li>Cursos de 16 clases: mínimo 14 clases de asistencia.</li>
+                    </ul>
+                </div>
+
+                <div class="text-[9.5px]">
+                    A continuación, se relacionan las personas a inscribir:
+                </div>
+
+                <!-- Tabla de Inscritos Oficial para el PDF -->
+                <div class="overflow-hidden border border-slate-800 rounded-sm">
+                    <table class="w-full text-left text-[9px] border-collapse pdf-table">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-800 text-slate-900 font-bold">
+                                <th class="p-2 border-r border-slate-300">NÚMERO DOCUMENTO</th>
+                                <th class="p-2 border-r border-slate-300">NOMBRE COMPLETO</th>
+                                <th class="p-2 border-r border-slate-300">CURSO O GIMNASIO</th>
+                                <th class="p-2 border-r border-slate-300">FECHA DE INICIO</th>
+                                <th class="p-2 border-r border-slate-300">DURACIÓN</th>
+                                <th class="p-2 text-right">VALOR ASUMIDO EAAB</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pdf-table-rows" class="divide-y divide-slate-300">
+                            <!-- Filas de inscritos del PDF -->
+                        </tbody>
+                        <tfoot>
+                            <tr class="bg-slate-50 font-bold border-t border-slate-800">
+                                <td colspan="5" class="p-2 text-right border-r border-slate-300">VALOR TOTAL ASUMIDO POR LA ENTIDAD ($):</td>
+                                <td id="pdf-total-asumido" class="p-2 text-right text-slate-900 font-extrabold">$0</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Cláusula de Autorización de Descuento por Nómina -->
+                <div class="text-[9.5px] text-justify leading-relaxed">
+                    En caso de injustificada inasistencia a cualquiera de las actividades aquí relacionadas, por parte mía o de alguno(a) de mis beneficiarios(as), o inscripciones a más de dos (2) programas del convenio (cursos o Gimnasios - SmartFit o Compensar) por parte del grupo familiar, <strong>autorizo de manera expresa, voluntaria e irrevocable a la EMPRESA DE ACUEDUCTO Y ALCANTARILLADO DE BOGOTÁ - E.S.P.</strong> para que me realice el descuento por nómina del valor correspondiente asumido por la entidad, de cualquiera de los conceptos que me sean reconocidos, tales como salario, bonificaciones, primas, cesantías u otros emolumentos. Adicionalmente, se aplicará una penalidad en tiempo que consistirá en la suspensión del acceso al convenio activo por un período de dos (2) meses para quien tenga el incumplimiento, afectado el cupo de los programas.
+                </div>
+
+                <!-- Bloque de Firmas y Trazas de Auditoría -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 border-t border-slate-300">
+                    <div class="space-y-1 flex flex-col justify-end">
+                        <div class="border border-slate-200 bg-slate-50 p-2 rounded flex flex-col items-center justify-center max-w-[200px]">
+                            <img id="pdf-firma-img" src="" alt="Firma Funcionario" class="max-h-20 object-contain">
                         </div>
-                        <div>
-                            <span class="text-slate-500 font-medium block">Frente de Obra / Ubicación:</span>
-                            <span id="out-ubicacion" class="font-bold text-slate-800">-</span>
+                        <span class="text-[9px] font-bold text-slate-800 block">Firma del funcionario en señal de aceptación</span>
+                        <div class="text-[8.5px] text-slate-600 space-y-0.5">
+                            <div>Cédula: <span id="pdf-out-cedula" class="font-bold"></span></div>
+                            <div>Registro: <span id="pdf-out-registro" class="font-bold"></span></div>
+                            <div>Teléfono Celular: <span id="pdf-out-celular" class="font-bold"></span></div>
                         </div>
-                        <div>
-                            <span class="text-slate-500 font-medium block">Tipo de Visita:</span>
-                            <span id="out-tipo" class="font-bold text-slate-800">-</span>
+                    </div>
+
+                    <!-- Cadena de Custodia Digital / Metadatos de Seguridad -->
+                    <div class="bg-slate-50 p-3 rounded border border-slate-200 text-[8px] space-y-1">
+                        <div class="font-bold text-slate-700 border-b border-slate-200 pb-1 mb-1 flex items-center gap-1 uppercase">
+                            <i class="fa-solid fa-fingerprint text-blue-800"></i> Metadatos de Auditoría Digital
                         </div>
-                        <div>
-                            <span class="text-slate-500 font-medium block">Concepto de la Obra:</span>
-                            <span id="out-estado" class="font-bold text-slate-800">-</span>
+                        <div><strong>Firmado por:</strong> <span id="pdf-meta-correo"></span></div>
+                        <div><strong>IP del Dispositivo:</strong> <span id="pdf-meta-ip"></span></div>
+                        <div><strong>Geolocalización:</strong> <span id="pdf-meta-coords" class="font-semibold text-blue-800"></span></div>
+                        <div><strong>Marca de Tiempo:</strong> <span id="pdf-meta-timestamp"></span></div>
+                        <div class="truncate"><strong>Huella de Software:</strong> <span id="pdf-meta-dispositivo"></span></div>
+                        <div class="text-[7.5px] text-slate-400 italic mt-1 leading-tight">
+                            Este documento digital está respaldado por los términos de integridad tecnológica de la Ley 527 de 1999 de la República de Colombia.
                         </div>
                     </div>
                 </div>
 
-                <!-- Sección Descripción de Actividades -->
-                <div>
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">3. Detalles de Inspección y Hallazgos</h2>
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs space-y-3">
-                        <div>
-                            <span class="text-slate-500 font-medium block">Descripción de Actividades:</span>
-                            <p id="out-descripcion" class="text-slate-800 leading-relaxed mt-1 text-justify whitespace-pre-wrap">-</p>
+                <!-- Footer Legal e Identificación de Calidad Corporativa -->
+                <div class="border-t-2 border-slate-800 pt-2 flex justify-between items-center text-[7.5px] text-slate-500">
+                    <div class="flex flex-col">
+                        <span>Av. Calle 24 #37-15. Código Postal. 111321.</span>
+                        <span>PBX (571) 3447000, www.acueducto.com.co</span>
+                        <span>Bogotá D.C. - Colombia</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="border border-slate-300 p-1 text-center font-bold">
+                            <div>icontec</div>
+                            <div class="text-[6px]">SC701-1</div>
                         </div>
-                        <div>
-                            <span class="text-slate-500 font-medium block">Observaciones y Compromisos Acordados:</span>
-                            <p id="out-observaciones" class="text-slate-800 leading-relaxed mt-1 text-justify whitespace-pre-wrap">-</p>
+                        <div class="border border-slate-300 p-1 text-center">
+                            <div>MPEH0612F01-01</div>
+                        </div>
+                        <div class="text-right uppercase font-bold text-slate-800 leading-tight">
+                            Alcaldía de<br>Bogotá
                         </div>
                     </div>
                 </div>
 
-                <!-- Sección Firma y Custodia -->
-                <div>
-                    <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">4. Validación de Firma y Cadena de Custodia Digital</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-                        <!-- Imagen de la firma -->
-                        <div class="border border-slate-200 bg-slate-50 rounded-xl p-4 flex flex-col items-center justify-center">
-                            <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wide mb-1">Firma Digitalizada</span>
-                            <img id="out-firma-img" src="" alt="Firma Registrada" class="max-h-24 object-contain">
-                            <span class="text-[9px] text-slate-400 mt-2 font-mono">Trazo en pantalla táctil</span>
-                        </div>
-
-                        <!-- Metadatos de seguridad -->
-                        <div class="md:col-span-2 space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-100 text-[11px]">
-                            <div class="grid grid-cols-2 gap-2 border-b border-slate-200 pb-2">
-                                <div>
-                                    <span class="text-slate-400">Firmante:</span>
-                                    <span id="out-correo" class="font-bold text-slate-800 block">-</span>
-                                </div>
-                                <div>
-                                    <span class="text-slate-400">Marca de tiempo:</span>
-                                    <span id="out-timestamp" class="font-mono text-slate-800 block">-</span>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2 border-b border-slate-200 pb-2">
-                                <div>
-                                    <span class="text-slate-400">Geolocalización:</span>
-                                    <span id="out-coords" class="font-bold text-blue-700 block">-</span>
-                                </div>
-                                <div>
-                                    <span class="text-slate-400">IP del dispositivo:</span>
-                                    <span id="out-ip" class="font-mono text-slate-800 block">-</span>
-                                </div>
-                            </div>
-                            <div>
-                                <span class="text-slate-400">Huella Técnica del Dispositivo:</span>
-                                <span id="out-dispositivo" class="text-slate-600 block truncate max-w-md">-</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pie Legal del Acta -->
-                <div class="text-[9px] text-slate-400 border-t border-slate-100 pt-4 text-center leading-normal">
-                    <p>Esta acta electrónica cumple con los lineamientos de legalidad provistos por la Ley 527 de 1999 de Colombia, validando la identidad del firmante a través de su infraestructura de correo institucional verificado e indexando coordenadas de posicionamiento GPS y firmas dinámicas capturadas en hardware del suscriptor.</p>
-                </div>
             </div>
         </div>
     </main>
 
     <!-- Pie de página -->
-    <footer class="bg-slate-900 text-slate-400 text-xs py-6 px-6 border-t border-slate-800 text-center space-y-2">
-        <p>© 2026 Sistema Integrado de Gestión - Contratistas del Acueducto.</p>
-        <p class="text-slate-600">Prototipo de Demostración para el Acueducto de Bogotá. Ejecución local 100% segura.</p>
+    <footer class="bg-slate-900 text-slate-400 text-[10px] py-4 px-6 border-t border-slate-800 text-center space-y-1">
+        <p>© 2026 Empresa de Acueducto y Alcantarillado de Bogotá - EAAB-ESP.</p>
+        <p class="text-slate-600">Dirección de Mejoramiento de Calidad de Vida - Bienestar Corporativo.</p>
     </footer>
 
     <script>
         let currentStep = 1;
         let isMailUnlocked = false;
         
-        // Elementos del Canvas
+        // Elementos del Canvas de Firma
         const canvas = document.getElementById('signature-pad');
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
@@ -414,47 +502,88 @@
         let ipAddress = 'Calculando...';
         let coordinates = 'Calculando...';
 
+        // Arreglo dinámico de inscritos
+        let inscritos = [];
+
         window.onload = function() {
-            // Capturar IP usando API pública de forma gratuita
+            // Intentar capturar IP real
             fetch('https://api.ipify.org?format=json')
                 .then(res => res.json())
                 .then(data => { ipAddress = data.ip; })
-                .catch(() => { ipAddress = '181.49.85.23 (Local)'; });
+                .catch(() => { ipAddress = '186.29.15.42 (IP Red Interna)'; });
 
-            // Capturar Geolocalización si se permite
+            // Capturar ubicación si el usuario la concede
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         coordinates = `${position.coords.latitude.toFixed(6)}, ${position.coords.longitude.toFixed(6)}`;
                     },
                     () => {
-                        coordinates = '4.609710, -74.081750 (Bogotá, CO)';
+                        coordinates = '4.609710, -74.081750 (Oficinas Centrales EAAB)';
                     }
                 );
             } else {
-                coordinates = '4.609710, -74.081750 (Bogotá, CO)';
+                coordinates = '4.609710, -74.081750 (Oficinas Centrales EAAB)';
             }
 
-            // Inicializar lienzo táctil
             setupCanvas();
         };
 
+        function showToast(message, type = 'info') {
+            const existingToasts = document.querySelectorAll('.custom-toast');
+            existingToasts.forEach(t => t.remove());
+
+            const toast = document.createElement('div');
+            toast.className = `custom-toast fixed bottom-4 right-4 z-50 p-4 rounded-xl shadow-lg border flex items-center gap-3 transition-all transform translate-y-10 opacity-0 max-w-sm w-full`;
+            
+            let bg = 'bg-white';
+            let border = 'border-slate-200';
+            let icon = '<i class="fa-solid fa-circle-info text-blue-500"></i>';
+
+            if (type === 'success') {
+                bg = 'bg-green-50';
+                border = 'border-green-200';
+                icon = '<i class="fa-solid fa-circle-check text-green-600"></i>';
+            } else if (type === 'error') {
+                bg = 'bg-red-50';
+                border = 'border-red-200';
+                icon = '<i class="fa-solid fa-triangle-exclamation text-red-600"></i>';
+            }
+
+            toast.innerHTML = `
+                <div class="${bg} ${border} flex items-center p-3 rounded-xl border w-full">
+                    <span class="text-base">${icon}</span>
+                    <p class="ml-2.5 text-[11px] font-semibold text-slate-800 leading-normal">${message}</p>
+                </div>
+            `;
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            }, 100);
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
         function nextStep(step) {
+            // Validaciones por paso
             if (step > currentStep) {
                 if (currentStep === 1) {
-                    const nombre = document.getElementById('nombre_inspector').value.trim();
-                    const documento = document.getElementById('documento_inspector').value.trim();
-                    if (!nombre || !documento) {
-                        showToast('Debe ingresar su nombre y documento.', 'error');
+                    const nombre = document.getElementById('nombre_funcionario').value.trim();
+                    const documento = document.getElementById('documento_funcionario').value.trim();
+                    const registro = document.getElementById('registro_funcionario').value.trim();
+                    const celular = document.getElementById('celular_funcionario').value.trim();
+                    if (!nombre || !documento || !registro || !celular) {
+                        showToast('Todos los datos del funcionario son obligatorios.', 'error');
                         return;
                     }
                 } else if (currentStep === 2) {
-                    const proyecto = document.getElementById('proyecto').value;
-                    const ubicacion = document.getElementById('ubicacion').value.trim();
-                    const tipo_visita = document.getElementById('tipo_visita').value;
-                    const descripcion = document.getElementById('descripcion').value.trim();
-                    if (!proyecto || !ubicacion || !tipo_visita || !descripcion) {
-                        showToast('Por favor, complete todos los campos obligatorios.', 'error');
+                    if (inscritos.length === 0) {
+                        showToast('Debe agregar al menos un programa o inscrito para proceder.', 'error');
                         return;
                     }
                 }
@@ -465,30 +594,113 @@
 
             currentStep = step;
 
-            // Actualizar barra de progreso
+            // Actualizar barra e indicador
             const progressPercentage = step === 1 ? 33 : step === 2 ? 66 : 100;
             document.getElementById('step-badge').innerText = `Paso ${step} de 3`;
             document.getElementById('step-percentage').innerText = `${progressPercentage}% Completado`;
             document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
 
             if (step === 3) {
-                setTimeout(resizeCanvas, 100);
+                setTimeout(resizeCanvas, 150);
             }
         }
 
+        // Métodos de la tabla dinámica
+        function formatDinero(num) {
+            return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(num);
+        }
+
+        function renderInscritos() {
+            const tbody = document.getElementById('inscritos-table-body');
+            tbody.innerHTML = '';
+
+            if (inscritos.length === 0) {
+                tbody.innerHTML = `
+                    <tr id="no-rows-msg" class="text-slate-400">
+                        <td colspan="7" class="p-4 text-center">No ha agregado ningún inscrito todavía. Utilice el panel superior.</td>
+                    </tr>
+                `;
+                document.getElementById('total-asumido-label').innerText = "$0";
+                return;
+            }
+
+            let total = 0;
+            inscritos.forEach((ins, idx) => {
+                total += ins.valor;
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50";
+                tr.innerHTML = `
+                    <td class="p-3 font-mono font-bold">${ins.documento}</td>
+                    <td class="p-3">${ins.nombre}</td>
+                    <td class="p-3"><span class="bg-blue-50 text-blue-800 text-[10px] px-2 py-0.5 rounded font-medium">${ins.curso}</span></td>
+                    <td class="p-3">${ins.fecha}</td>
+                    <td class="p-3 text-slate-500">${ins.duracion}</td>
+                    <td class="p-3 text-right font-semibold">${formatDinero(ins.valor)}</td>
+                    <td class="p-3 text-center">
+                        <button type="button" onclick="removeInscrito(${idx})" class="text-red-500 hover:text-red-700">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('total-asumido-label').innerText = formatDinero(total);
+        }
+
+        function addInscrito() {
+            const doc = document.getElementById('temp_doc').value.trim();
+            const nombre = document.getElementById('temp_nombre').value.trim();
+            const curso = document.getElementById('temp_curso').value;
+            const fecha = document.getElementById('temp_fecha').value;
+            const duracion = document.getElementById('temp_duracion').value.trim();
+            const valor = parseFloat(document.getElementById('temp_valor').value.trim());
+
+            if (!doc || !nombre || !curso || !fecha || !duracion || isNaN(valor)) {
+                showToast('Diligencie todos los campos de inscripción correctamente.', 'error');
+                return;
+            }
+
+            inscritos.push({
+                documento: doc,
+                nombre: nombre,
+                curso: curso,
+                fecha: fecha,
+                duracion: duracion,
+                valor: valor
+            });
+
+            // Limpiar campos temporales
+            document.getElementById('temp_doc').value = '';
+            document.getElementById('temp_nombre').value = '';
+            document.getElementById('temp_curso').value = '';
+            document.getElementById('temp_fecha').value = '';
+            document.getElementById('temp_duracion').value = '';
+            document.getElementById('temp_valor').value = '';
+
+            renderInscritos();
+            showToast('Inscripción de bienestar agregada correctamente.', 'success');
+        }
+
+        function removeInscrito(index) {
+            inscritos.splice(index, 1);
+            renderInscritos();
+        }
+
+        // Habilitación de Firma
         function unlockSignature() {
             const emailInput = document.getElementById('correo_corporativo').value.trim();
             const btnUnlock = document.getElementById('btn-unlock-signature');
             
-            if (!emailInput || !emailInput.includes('@')) {
-                showToast('Ingrese un correo institucional válido para habilitar la firma.', 'error');
+            if (!emailInput || !emailInput.includes('@') || !emailInput.endsWith('.gov.co') && !emailInput.endsWith('.com.co') && !emailInput.endsWith('.com')) {
+                showToast('Ingrese un correo institucional válido de la EAAB (@acueducto.com.co).', 'error');
                 return;
             }
 
             isMailUnlocked = true;
-            showToast('Correo guardado en auditoría. Lienzo desbloqueado.', 'success');
+            showToast('Identificación de correo auditada. Pad de firma desbloqueado.', 'success');
             
-            // Desbloquear lienzo de firma
+            // Desbloquear lienzo
             const container = document.getElementById('firma-container');
             container.classList.remove('opacity-50', 'pointer-events-none');
             document.getElementById('canvas-placeholder').classList.add('hidden');
@@ -496,11 +708,12 @@
             // Bloquear input del correo
             document.getElementById('correo_corporativo').disabled = true;
             btnUnlock.disabled = true;
-            btnUnlock.innerHTML = '<i class="fa-solid fa-lock mr-2"></i>Correo Confirmado';
+            btnUnlock.innerHTML = '<i class="fa-solid fa-user-check mr-1.5"></i>Correo Verificado';
 
             resizeCanvas();
         }
 
+        // Lógica de firma táctil (Canvas)
         function setupCanvas() {
             canvas.addEventListener('mousedown', startDrawing);
             canvas.addEventListener('mousemove', draw);
@@ -528,9 +741,9 @@
             canvas.width = rect.width;
             canvas.height = rect.height;
             
-            ctx.lineWidth = 3;
+            ctx.lineWidth = 2.5;
             ctx.lineCap = 'round';
-            ctx.strokeStyle = '#1e293b';
+            ctx.strokeStyle = '#0f172a'; // Tinta azul/negro oscuro
 
             if (hasSigned) {
                 const img = new Image();
@@ -577,125 +790,105 @@
             document.getElementById('btn-submit-acta').setAttribute('disabled', 'true');
         }
 
+        // Consolidación final de datos
         function submitForm() {
             if (!hasSigned || !isMailUnlocked) {
-                showToast('Firma obligatoria antes de enviar.', 'error');
+                showToast('Firma obligatoria para registrar el compromiso legal.', 'error');
                 return;
             }
 
-            // Ocultar el formulario
+            // Ocultar formulario de edición
             document.getElementById('actaForm').parentNode.classList.add('hidden');
 
-            const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
-            const randomID = `ACTA-${Math.floor(100000 + Math.random() * 900000)}`;
+            const now = new Date();
+            const fechaFormateada = now.toLocaleDateString('es-CO', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '/');
+            const timestampCompleto = now.toISOString().replace('T', ' ').substring(0, 19) + ' GMT-5';
 
-            // Rellenar Datos en el Contenedor Imprimible
-            document.getElementById('acta-id-badge').innerText = `ID: ${randomID}`;
-            document.getElementById('pdf-generation-time').innerText = `Fecha: ${timestamp}`;
-
-            document.getElementById('out-inspector').innerText = document.getElementById('nombre_inspector').value;
-            document.getElementById('out-documento').innerText = document.getElementById('documento_inspector').value;
-            document.getElementById('out-proyecto').innerText = document.getElementById('proyecto').options[document.getElementById('proyecto').selectedIndex].text;
-            document.getElementById('out-ubicacion').innerText = document.getElementById('ubicacion').value;
-            document.getElementById('out-tipo').innerText = document.getElementById('tipo_visita').value;
+            // Volcar datos al PDF Modelo
+            document.getElementById('pdf-fecha-emision').innerText = fechaFormateada;
             
-            const estado_obra = document.querySelector('input[name="estado_obra"]:checked').value;
-            document.getElementById('out-estado').innerHTML = estado_obra === 'Aprobado' 
-                ? '<span class="text-green-600 font-bold"><i class="fa-solid fa-circle-check"></i> Aprobado</span>'
-                : '<span class="text-red-600 font-bold"><i class="fa-solid fa-circle-xmark"></i> Rechazado</span>';
+            const funcionarioNombre = document.getElementById('nombre_funcionario').value;
+            const funcionarioCedula = document.getElementById('documento_funcionario').value;
+            const funcionarioRegistro = document.getElementById('registro_funcionario').value;
+            const funcionarioCelular = document.getElementById('celular_funcionario').value;
 
-            document.getElementById('out-descripcion').innerText = document.getElementById('descripcion').value;
-            document.getElementById('out-observaciones').innerText = document.getElementById('observaciones').value || 'Sin observaciones registradas.';
+            document.getElementById('out-funcionario-nombre').innerText = funcionarioNombre;
+            document.getElementById('out-funcionario-cedula').innerText = funcionarioCedula;
 
-            document.getElementById('out-correo').innerText = document.getElementById('correo_corporativo').value;
-            document.getElementById('out-timestamp').innerText = timestamp;
-            document.getElementById('out-ip').innerText = ipAddress;
-            document.getElementById('out-coords').innerHTML = `<i class="fa-solid fa-map-pin text-red-500 mr-1"></i> ${coordinates}`;
-            document.getElementById('out-dispositivo').innerText = navigator.userAgent;
+            document.getElementById('pdf-out-cedula').innerText = funcionarioCedula;
+            document.getElementById('pdf-out-registro').innerText = funcionarioRegistro;
+            document.getElementById('pdf-out-celular').innerText = funcionarioCelular;
 
-            // Transferir la firma del canvas al visor de imagen
-            const signatureDataUrl = canvas.toDataURL('image/png');
-            document.getElementById('out-firma-img').src = signatureDataUrl;
+            // Llenar tabla del PDF
+            const pdfTbody = document.getElementById('pdf-table-rows');
+            pdfTbody.innerHTML = '';
+            let total = 0;
 
-            // Mostrar Sección de Resultados
+            inscritos.forEach(ins => {
+                total += ins.valor;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-2 border-r border-slate-300 font-mono">${ins.documento}</td>
+                    <td class="p-2 border-r border-slate-300 font-bold">${ins.nombre}</td>
+                    <td class="p-2 border-r border-slate-300">${ins.curso}</td>
+                    <td class="p-2 border-r border-slate-300">${ins.fecha}</td>
+                    <td class="p-2 border-r border-slate-300">${ins.duracion}</td>
+                    <td class="p-2 text-right font-mono">${formatDinero(ins.valor)}</td>
+                `;
+                pdfTbody.appendChild(tr);
+            });
+            document.getElementById('pdf-total-asumido').innerText = formatDinero(total);
+
+            // Metadatos de auditoría forense
+            document.getElementById('pdf-meta-correo').innerText = document.getElementById('correo_corporativo').value;
+            document.getElementById('pdf-meta-ip').innerText = ipAddress;
+            document.getElementById('pdf-meta-coords').innerHTML = `<i class="fa-solid fa-location-crosshairs mr-1"></i> ${coordinates}`;
+            document.getElementById('pdf-meta-timestamp').innerText = timestampCompleto;
+            document.getElementById('pdf-meta-dispositivo').innerText = navigator.userAgent;
+
+            // Volcar la firma dinámica en imagen para el PDF
+            const dataUrlFirma = canvas.toDataURL('image/png');
+            document.getElementById('pdf-firma-img').src = dataUrlFirma;
+
+            // Mostrar resultado
             document.getElementById('result-view').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function downloadPDF() {
             const element = document.getElementById('pdf-container');
-            const inspectorName = document.getElementById('nombre_inspector').value.replace(/\s+/g, '_');
+            const nameClean = document.getElementById('nombre_funcionario').value.replace(/\s+/g, '_');
             
             const opt = {
-                margin:       [0.5, 0.5, 0.5, 0.5], // márgenes en pulgadas
-                filename:     `Acta_Obra_${inspectorName}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
+                margin:       [0.4, 0.4, 0.4, 0.4], // Margen prudencial en pulgadas
+                filename:     `Acta_Compromiso_Bienestar_${nameClean}.pdf`,
+                image:        { type: 'jpeg', quality: 1.0 },
+                html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
                 jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
 
-            // Ejecutar generación del PDF usando html2pdf.js
             html2pdf().set(opt).from(element).save()
                 .then(() => {
-                    showToast('PDF descargado con éxito.', 'success');
+                    showToast('Acta PDF descargada correctamente.', 'success');
                 })
                 .catch((err) => {
-                    console.error('Error al descargar PDF:', err);
-                    showToast('Error al procesar el archivo PDF.', 'error');
+                    console.error('Error generación PDF:', err);
+                    showToast('Hubo un error al compilar el PDF de manera local.', 'error');
                 });
-        }
-
-        function showToast(message, type = 'info') {
-            const existingToasts = document.querySelectorAll('.custom-toast');
-            existingToasts.forEach(t => t.remove());
-
-            const toast = document.createElement('div');
-            toast.className = `custom-toast fixed bottom-4 right-4 z-50 p-4 rounded-xl shadow-lg border flex items-center gap-3 transition-all transform translate-y-10 opacity-0 max-w-sm w-full`;
-            
-            let bg = 'bg-white';
-            let border = 'border-slate-200';
-            let icon = '<i class="fa-solid fa-circle-info text-blue-500"></i>';
-
-            if (type === 'success') {
-                bg = 'bg-green-50';
-                border = 'border-green-200';
-                icon = '<i class="fa-solid fa-circle-check text-green-600"></i>';
-            } else if (type === 'error') {
-                bg = 'bg-red-50';
-                border = 'border-red-200';
-                icon = '<i class="fa-solid fa-triangle-exclamation text-red-600"></i>';
-            }
-
-            toast.innerHTML = `
-                <div class="${bg} ${border} flex items-center p-4 rounded-xl border w-full">
-                    <span class="text-lg">${icon}</span>
-                    <p class="ml-3 text-xs font-semibold text-slate-800 leading-normal">${message}</p>
-                </div>
-            `;
-
-            document.body.appendChild(toast);
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-10', 'opacity-0');
-            }, 100);
-
-            setTimeout(() => {
-                toast.classList.add('translate-y-10', 'opacity-0');
-                setTimeout(() => toast.remove(), 300);
-            }, 4000);
         }
 
         function resetForm() {
             currentStep = 1;
             isMailUnlocked = false;
             hasSigned = false;
+            inscritos = [];
 
             document.getElementById('actaForm').reset();
             document.getElementById('correo_corporativo').disabled = false;
             
             const btnUnlock = document.getElementById('btn-unlock-signature');
             btnUnlock.disabled = false;
-            btnUnlock.innerHTML = '<i class="fa-solid fa-lock-open mr-2"></i>Habilitar Firma';
+            btnUnlock.innerHTML = '<i class="fa-solid fa-lock-open mr-1.5"></i>Habilitar Firma';
 
             document.getElementById('firma-container').classList.add('opacity-50', 'pointer-events-none');
             document.getElementById('canvas-placeholder').classList.remove('hidden');
@@ -706,6 +899,7 @@
             document.getElementById('result-view').classList.add('hidden');
             document.getElementById('actaForm').parentNode.classList.remove('hidden');
             
+            renderInscritos();
             nextStep(1);
         }
     </script>
