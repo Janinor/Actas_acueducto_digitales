@@ -186,6 +186,7 @@
                                     <option value="Escuela Defensa Personal">Escuela Defensa Personal</option>
                                 </select>
                             </div>
+			    <div>
                                 <label for="temp_fecha" class="block text-[11px] font-semibold text-slate-600 mb-1">Fecha de Inicio</label>
                                 <input type="date" id="temp_fecha" class="w-full rounded-lg border border-slate-300 py-1.5 px-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             </div>
@@ -198,7 +199,6 @@
                                 <input type="number" id="temp_valor" class="w-full rounded-lg border border-slate-300 py-1.5 px-2.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ej. 96900">
                             </div>
                         </div>
-
                         <div class="flex justify-end pt-2">
                             <button type="button" onclick="addInscrito()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg text-xs transition flex items-center gap-1">
                                 <i class="fa-solid fa-plus"></i> Agregar Inscrito
@@ -277,6 +277,17 @@
                         <p class="font-bold text-red-700 bg-red-50 p-2.5 rounded-lg border border-red-100">
                             AUTORIZACIÓN DE DESCUENTO: En caso de injustificada inasistencia o inscripciones a más de dos (2) programas por grupo familiar, autorizo de manera expresa, voluntaria e irrevocable a la EMPRESA DE ACUEDUCTO Y ALCANTARILLADO DE BOGOTÁ - E.S.P. para que me realice el descuento por nómina del valor correspondiente asumido por la entidad, de cualquiera de mi haberes (salario, primas, cesantías). Adicionalmente, se aplicará una suspensión del acceso al convenio por dos (2) meses.
                         </p>
+                    </div>
+
+                    <!-- Autorización Tratamiento Datos Personales -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex items-start gap-3">
+                        <input type="checkbox" id="tratamiento_datos" class="h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 mt-0.5 cursor-pointer">
+                        <div class="text-xs text-slate-600 leading-normal">
+                            <label for="tratamiento_datos" class="font-bold text-slate-800 cursor-pointer block mb-1">
+                                Autorización de Tratamiento de Datos Personales (Habeas Data) *
+                            </label>
+                            De conformidad con la Ley 1581 de 2012 de Protección de Datos Personales, autorizo de manera previa, expresa e informada a la Empresa de Acueducto y Alcantarillado de Bogotá - ESP (EAAB) para la recolección, almacenamiento, uso y circulación de mis datos personales y los de mis beneficiarios aquí registrados, con la finalidad de gestionar la inscripción, control de asistencia, penalidades y demás actividades relacionadas con el Plan de Bienestar Corporativo.
+                        </div>
                     </div>
 
                     <div class="bg-blue-50 rounded-2xl p-4 border border-blue-100 space-y-3">
@@ -360,10 +371,6 @@
                         <img src="logo_acueducto.png" alt="Logo Acueducto" class="h-24 w-auto">
                     </div>
                     <div class="text-right flex flex-col items-end">
-                        <div class="bg-slate-100 border border-slate-400 rounded px-2.5 py-1 text-center mb-2">
-                            <span class="text-[8px] uppercase font-bold text-slate-700 block tracking-tight">Acta Consecutiva N°</span>
-                            <span id="pdf-num-acta" class="text-xs font-extrabold text-blue-900 font-mono">000000</span>
-                        </div>
                         <span class="text-[9px] font-bold text-slate-800 leading-none uppercase">Gerencia Corporativa de Gestión Humana y Administrativa</span>
                         <span class="text-[8px] text-slate-500 leading-none">Dirección Mejoramiento Calidad de Vida</span>
                     </div>
@@ -430,6 +437,10 @@
                     En caso de injustificada inasistencia a cualquiera de las actividades aquí relacionadas, por parte mía o de alguno(a) de mis beneficiarios(as), o inscripciones a más de dos (2) programas del convenio (cursos o Gimnasios - SmartFit o Compensar) por parte del grupo familiar, <strong>autorizo de manera expresa, voluntaria e irrevocable a la EMPRESA DE ACUEDUCTO Y ALCANTARILLADO DE BOGOTÁ - E.S.P.</strong> para que me realice el descuento por nómina del valor correspondiente asumido por la entidad, de cualquiera de los conceptos que me sean reconocidos, tales como salario, bonificaciones, primas, cesantías u otros emolumentos. Adicionalmente, se aplicará una penalidad en tiempo que consistirá en la suspensión del acceso al convenio activo por un período de dos (2) meses para quien tenga el incumplimiento, afectado el cupo de los programas.
                 </div>
 
+                <div class="text-[8.5px] text-justify leading-relaxed text-slate-600 border-t border-slate-200 pt-2">
+                    <strong>AUTORIZACIÓN TRATAMIENTO DE DATOS PERSONALES (Habeas Data):</strong> En cumplimiento de la Ley 1581 de 2012, autorizo expresamente a la EAAB-ESP para realizar el tratamiento de mis datos personales y los de mis beneficiarios, con el fin exclusivo de gestionar la participación en el Plan de Bienestar Corporativo, actividades de control y seguimiento de asistencia, y aplicación de las deducciones o sanciones autorizadas.
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2 border-t border-slate-300">
                     <div class="space-y-1 flex flex-col justify-end">
                         <div class="border border-slate-200 bg-slate-50 p-2 rounded flex flex-col items-center justify-center max-w-[200px]">
@@ -486,9 +497,6 @@
     </footer>
 
     <script>
-        // CONFIGURACIÓN DE CONSECUTIVO DE ACTAS BASE
-        // Cambia este número si deseas iniciar la numeración desde un número específico (Ej: 4402)
-        const NUMERO_ACTA_INICIAL = 4402; 
 
         let currentStep = 1;
         let isMailUnlocked = false;
@@ -507,10 +515,6 @@
         let inscritos = [];
 
         window.onload = function() {
-            // Inicializar o leer el consecutivo de acta actual en LocalStorage
-            if (!localStorage.getItem('consecutivoActaEAAB')) {
-                localStorage.setItem('consecutivoActaEAAB', NUMERO_ACTA_INICIAL);
-            }
 
             // Intentar capturar IP real
             fetch('https://api.ipify.org?format=json')
@@ -534,13 +538,6 @@
 
             setupCanvas();
         };
-
-        // Función para rellenar con ceros a la izquierda (Formato estético corporativo Ej: 004402)
-        function pad(num, size) {
-            let s = num + "";
-            while (s.length < size) s = "0" + s;
-            return s;
-        }
 
         function showToast(message, type = 'info') {
             const existingToasts = document.querySelectorAll('.custom-toast');
@@ -700,10 +697,17 @@
             const emailInput = document.getElementById('correo_corporativo').value.trim();
             const btnUnlock = document.getElementById('btn-unlock-signature');
             
+            if (!document.getElementById('tratamiento_datos').checked) {
+                showToast('Debe autorizar el tratamiento de datos personales (Habeas Data) para continuar.', 'error');
+                return;
+            }
+
             if (!emailInput || !emailInput.includes('@') || (!emailInput.endsWith('.gov.co') && !emailInput.endsWith('.com.co') && !emailInput.endsWith('.com'))) {
                 showToast('Ingrese un correo institucional válido de la EAAB (@acueducto.com.co).', 'error');
                 return;
             }
+
+            document.getElementById('tratamiento_datos').disabled = true;
 
             isMailUnlocked = true;
             showToast('Identificación de correo auditada. Pad de firma desbloqueado.', 'success');
@@ -799,6 +803,11 @@
         }
 
         function submitForm() {
+            if (!document.getElementById('tratamiento_datos').checked) {
+                showToast('Debe autorizar el tratamiento de datos personales (Habeas Data) para continuar.', 'error');
+                return;
+            }
+
             if (!hasSigned || !isMailUnlocked) {
                 showToast('Firma obligatoria para registrar el compromiso de asistencia.', 'error');
                 return;
@@ -811,9 +820,6 @@
             const fechaFormateada = now.toLocaleDateString('es-CO', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '/');
             const timestampCompleto = now.toISOString().replace('T', ' ').substring(0, 19) + ' GMT-5';
 
-            // ASIGNACIÓN Y CONTROL DEL CONSECUTIVO DE ACTA
-            let numeroActaActual = parseInt(localStorage.getItem('consecutivoActaEAAB'));
-            document.getElementById('pdf-num-acta').innerText = pad(numeroActaActual, 6);
 
             // Volcar datos al PDF Modelo
             document.getElementById('pdf-fecha-emision').innerText = fechaFormateada;
@@ -861,36 +867,33 @@
             const dataUrlFirma = canvas.toDataURL('image/png');
             document.getElementById('pdf-firma-img').src = dataUrlFirma;
 
-            // AVANZAR EL CONSECUTIVO PARA EL PRÓXIMO REGISTRO
-            localStorage.setItem('consecutivoActaEAAB', numeroActaActual + 1);
 
             // Mostrar resultado
             document.getElementById('result-view').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function downloadPDF() {
-            const element = document.getElementById('pdf-container');
-            const nameClean = document.getElementById('nombre_funcionario').value.replace(/\s+/g, '_');
-            const numActaClean = document.getElementById('pdf-num-acta').innerText;
-            
-            const opt = {
-                margin:       [0.4, 0.4, 0.4, 0.4],
-                filename:     `Acta_N_${numActaClean}_Compromiso_Bienestar_${nameClean}.pdf`,
-                image:        { type: 'jpeg', quality: 1.0 },
-                html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
-                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-            };
+	function downloadPDF() {
+    		const element = document.getElementById('pdf-container');
+		const nameClean = document.getElementById('nombre_funcionario').value.replace(/\s+/g, '_');
+    
+    		const opt = {
+	         margin:       [0.4, 0.4, 0.4, 0.4],
+	         filename:     `Acta_Compromiso_Bienestar_${nameClean}.pdf`,
+	         image:        { type: 'jpeg', quality: 1.0 },
+	         html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+	         jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    		};
 
-            html2pdf().set(opt).from(element).save()
-                .then(() => {
+		html2pdf().set(opt).from(element).save()
+	  	 .then(() => {
                     showToast('Acta PDF descargada correctamente.', 'success');
-                })
-                .catch((err) => {
-                    console.error('Error generación PDF:', err);
-                    showToast('Hubo un error al compilar el PDF de manera local.', 'error');
-                });
-        }
+        	})
+        	.catch((err) => {
+                  console.error('Error generación PDF:', err);
+                  showToast('Hubo un error al compilar el PDF de manera local.', 'error');
+        	});
+	}
 
         function resetForm() {
             currentStep = 1;
@@ -900,6 +903,7 @@
 
             document.getElementById('actaForm').reset();
             document.getElementById('correo_corporativo').disabled = false;
+            document.getElementById('tratamiento_datos').disabled = false;
             
             const btnUnlock = document.getElementById('btn-unlock-signature');
             btnUnlock.disabled = false;
